@@ -1,5 +1,9 @@
 package com.projectrtiumph.engine.math;
 
+/**
+ * A class representing a 2D vector. Can be used to represent movement or acceleration of an object.
+ * @author Joseph
+ */
 public class Vector {
 	private double magnitude;
 	private double angle;
@@ -61,6 +65,7 @@ public class Vector {
 	
 	/**
 	 * Creates and returns a new vector equal to this vector plus the given vector.
+	 * Use this method for adding an acceleration vector to a movement vector.
 	 * 
 	 * @param other - the vector to add to this one
 	 * @return - a new vector 
