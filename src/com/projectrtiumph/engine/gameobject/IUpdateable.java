@@ -9,9 +9,7 @@ package com.projectrtiumph.engine.gameobject;
  */
 public interface IUpdateable {
 	/**
-	 * The method by which all updateable objects will be updated. The delta time shows how much time 
-	 * has passed between updates and should be used to scale movements.
-	 * @param deltaTime - the time that has passed after the last update call.
+	 * The method by which all updateable objects will be updated. All updates will take the same amount of time to process
 	 */
-	public void update(double deltaTime);
+	public void update();
 }
