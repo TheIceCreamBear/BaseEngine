@@ -1,4 +1,4 @@
-package com.projectrtiumph.engine.threads;
+package com.projectrtriumph.engine.threads;
 
 public class ShutdownThread extends Thread {
 	public ShutdownThread() {

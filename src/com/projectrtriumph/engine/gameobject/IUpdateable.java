@@ -1,4 +1,4 @@
-package com.projectrtiumph.engine.gameobject;
+package com.projectrtriumph.engine.gameobject;
 
 /**
  * Defines a functional interface IUpdateable with the method {@link IUpdateable#update(double)}.

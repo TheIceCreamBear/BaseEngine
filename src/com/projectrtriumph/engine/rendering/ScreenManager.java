@@ -1,4 +1,4 @@
-package com.projectrtiumph.engine.rendering;
+package com.projectrtriumph.engine.rendering;
 
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;

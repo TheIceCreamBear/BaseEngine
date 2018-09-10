@@ -1,8 +1,8 @@
-package com.projectrtiumph.engine;
+package com.projectrtriumph.engine;
 
 import java.awt.Graphics2D;
 
-import com.projectrtiumph.engine.rendering.ScreenManager;
+import com.projectrtriumph.engine.rendering.ScreenManager;
 
 public final class GameEngine {
 	public enum EnumEngineState {

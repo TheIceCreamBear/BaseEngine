@@ -1,4 +1,4 @@
-package com.projectrtiumph.engine.gameobject;
+package com.projectrtriumph.engine.gameobject;
 
 import java.awt.Graphics2D;
 

@@ -1,4 +1,4 @@
-package com.projectrtiumph.engine;
+package com.projectrtriumph.engine;
 
 /**
  * The Entry point into the GameEngine
