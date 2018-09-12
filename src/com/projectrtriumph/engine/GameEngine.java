@@ -2,6 +2,8 @@ package com.projectrtriumph.engine;
 
 import java.awt.Graphics2D;
 
+import com.projectrtriumph.engine.io.user.KeyInputHandler;
+import com.projectrtriumph.engine.io.user.MouseInputHandler;
 import com.projectrtriumph.engine.rendering.ScreenManager;
 
 public final class GameEngine {
@@ -25,14 +27,27 @@ public final class GameEngine {
 	// Rendering vars
 	private ScreenManager screenManager;
 	
+	// Input Handlers
+	private KeyInputHandler keyHandler;
+	private MouseInputHandler mouseHandler;
+	
 	public GameEngine(ScreenManager screenManager) {
 		this.screenManager = screenManager;
+	}
+	
+	public void startEngine() {
+		this.initialize();
+		this.run();
 	}
 	
 	private void initialize() {
 		instance = this;
 		this.engineState = EnumEngineState.INITIALIZING;
 		
+		// INPUT
+		this.keyHandler = new KeyInputHandler();
+		this.mouseHandler = new MouseInputHandler();
+		this.screenManager.addInputListeners(keyHandler, mouseHandler);
 		
 		System.gc();
 	}

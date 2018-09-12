@@ -9,6 +9,9 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
+import com.projectrtriumph.engine.io.user.KeyInputHandler;
+import com.projectrtriumph.engine.io.user.MouseInputHandler;
+
 public class ScreenManager {
 	private GraphicsDevice device;
 	private final JFrame frame;
@@ -51,6 +54,12 @@ public class ScreenManager {
 			}
 		}
 		Toolkit.getDefaultToolkit().sync();
+	}
+	
+	public void addInputListeners(KeyInputHandler kih, MouseInputHandler mih) {
+		this.frame.addKeyListener(kih);
+		this.frame.addMouseListener(mih);
+		this.frame.addMouseWheelListener(mih);
 	}
 	
 	public static ScreenManager getInstance() {
