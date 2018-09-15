@@ -9,6 +9,12 @@ import javax.swing.event.MouseInputListener;
 // TODO implement
 public class MouseInputHandler implements MouseInputListener, MouseWheelListener {
 	
+	
+	
+	public MouseInputHandler() {
+		
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
@@ -46,6 +52,10 @@ public class MouseInputHandler implements MouseInputListener, MouseWheelListener
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
+		
+	}
+	
+	public void captureInput() {
 		
 	}
 }
