@@ -56,6 +56,14 @@ public class ScreenManager {
 		Toolkit.getDefaultToolkit().sync();
 	}
 	
+	public int getScreenWidth() {
+		return device.getDisplayMode().getWidth();
+	}
+	
+	public int getScreenHeight() {
+		return device.getDisplayMode().getHeight();
+	}
+	
 	public void addInputListeners(KeyInputHandler kih, MouseInputHandler mih) {
 		this.frame.addKeyListener(kih);
 		this.frame.addMouseListener(mih);
