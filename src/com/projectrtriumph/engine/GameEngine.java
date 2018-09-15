@@ -1,5 +1,6 @@
 package com.projectrtriumph.engine;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import com.projectrtriumph.engine.io.user.KeyInputHandler;
@@ -49,13 +50,17 @@ public final class GameEngine {
 		this.mouseHandler = new MouseInputHandler();
 		this.screenManager.addInputListeners(keyHandler, mouseHandler);
 		
+		this.renderState = EnumEngineRenderState.MENU;
 		System.gc();
 	}
 	
+	// TODO implement
 	private void captureInput() {
-		
+		this.keyHandler.captureInput();
+		this.mouseHandler.captureInput();
 	}
-	
+
+	// TODO implement
 	private void update() {
 		switch (renderState) {
 			case SPLASH:
@@ -71,11 +76,26 @@ public final class GameEngine {
 		}
 	}
 	
+	int asdf;
+	int asdfg;
+	int dg;
+	
+	// TODO implement
 	private void render(Graphics2D g) {
+		// Black out the screen to prevent old stuff from showing
+		g.fillRect(0, 0, screenManager.getScreenWidth(), screenManager.getScreenHeight());
 		switch (renderState) {
 			case SPLASH:
 				break;
 			case MENU:
+				if (asdfg == 255) {
+					dg = -1;
+				} else if (asdfg == 0) {
+					dg = 1;
+				}
+				asdfg += dg;
+				g.setColor(new Color(asdfg, asdfg, asdfg));
+				g.fillRect(asdf++, 200, 20, 20);
 				break;
 			case PAUSE_MENU:
 				break;
@@ -109,7 +129,11 @@ public final class GameEngine {
 			// SLEEP A BIT
 			double sleepTime = MS_PER_FRAME + startTime - System.currentTimeMillis();
 			try {
-				Thread.sleep((long) sleepTime);
+				if (sleepTime < 0) {
+					System.err.println("RUNNING BEHIND!!!");
+				} else {
+					Thread.sleep((long) sleepTime);
+				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
