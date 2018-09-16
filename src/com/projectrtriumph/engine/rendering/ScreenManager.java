@@ -30,10 +30,10 @@ public class ScreenManager {
 		this.frame.setIgnoreRepaint(true);
 		this.frame.setResizable(false);
 		
-		this.camera = new Camera();
-		
 		this.device.setFullScreenWindow(frame);
 		this.device.setDisplayMode(device.getDisplayMode());
+		
+		this.camera = new Camera(getScreenWidth(), getScreenHeight());
 		
 		this.frame.createBufferStrategy(2);
 		

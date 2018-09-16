@@ -8,12 +8,19 @@ import java.awt.geom.Rectangle2D;
 import com.projectrtriumph.engine.math.shape.Rectangle;
 
 public class Camera {
+	private final int screenWidth;
+	private final int screenHeight;
+	private final int screenCenterX;
+	private final int screenCenterY;
 	private int zoomScale = 1;
 	private int offsetX = 0;
 	private int offsetY = 0;
 	
-	public Camera() {
-		
+	public Camera(int screenWidth, int screenHeight) {
+		this.screenWidth = screenWidth;
+		this.screenHeight = screenHeight;
+		this.screenCenterX = this.screenWidth / 2;
+		this.screenCenterY = this.screenHeight / 2;
 	}
 	
 	public void onMouseWheelEvent(MouseWheelEvent event) {
@@ -41,7 +48,11 @@ public class Camera {
 	
 	public AffineTransform getCurrentTransform() {
 		AffineTransform at = new AffineTransform();
+		// shifts the center of the scaled screen to the center of the screen to create zooming from center
+		at.translate(-screenCenterX * (zoomScale - 1), -screenCenterY * (zoomScale - 1));
+		// zooms the screen (currently only in)
 		at.scale(zoomScale, zoomScale);
+		// Translates to the off set position
 		at.translate(offsetX, offsetY);
 		return at;
 	}

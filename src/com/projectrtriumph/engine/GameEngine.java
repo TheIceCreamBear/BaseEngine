@@ -4,6 +4,11 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import com.projectrtriumph.engine.io.user.KeyInputHandler;
 import com.projectrtriumph.engine.io.user.MouseInputHandler;
@@ -36,6 +41,11 @@ public final class GameEngine {
 	
 	public GameEngine(ScreenManager screenManager) {
 		this.screenManager = screenManager;
+		try {
+			test = ImageIO.read(new File("C:/Users/Joseph/Desktop/Gradient.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void startEngine() {
@@ -85,6 +95,7 @@ public final class GameEngine {
 	
 	int asdfg;
 	int dg;
+	BufferedImage test;
 	
 	// TODO implement
 	private void render(Graphics2D g) {
@@ -105,7 +116,14 @@ public final class GameEngine {
 				}
 				asdfg += dg;
 				g.setColor(new Color(asdfg, 100, 100));
+				g.drawImage(test, 0, 0, null);
 				g.fillRect(500, 200, 20, 20);
+				g.fillRect(3000, 1000, 20, 20);
+				g.fillRect(2800, 200, 20, 20);
+				g.fillRect(500, 2015, 20, 20);
+				g.fillRect(1500, 1000, 20, 20);
+				g.fillRect(500, 500, 20, 20);
+				
 				break;
 			case PAUSE_MENU:
 				break;
