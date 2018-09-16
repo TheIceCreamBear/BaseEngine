@@ -61,6 +61,12 @@ public class ScreenManager {
 		Toolkit.getDefaultToolkit().sync();
 	}
 	
+	public void addInputListeners(KeyInputHandler kih, MouseInputHandler mih) {
+		this.frame.addKeyListener(kih);
+		this.frame.addMouseListener(mih);
+		this.frame.addMouseWheelListener(mih);
+	}
+	
 	public int getScreenWidth() {
 		return device.getDisplayMode().getWidth();
 	}
@@ -71,12 +77,6 @@ public class ScreenManager {
 	
 	public Rectangle getScreenBounds() {
 		return new Rectangle(0, 0, getScreenWidth(), getScreenHeight());
-	}
-	
-	public void addInputListeners(KeyInputHandler kih, MouseInputHandler mih) {
-		this.frame.addKeyListener(kih);
-		this.frame.addMouseListener(mih);
-		this.frame.addMouseWheelListener(mih);
 	}
 	
 	public Camera getCamera() {

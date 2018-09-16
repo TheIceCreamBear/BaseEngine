@@ -125,12 +125,12 @@ public final class GameEngine {
 		
 		this.engineState = EnumEngineState.STOPPING;
 	}
+	
+	public EnumEngineState getEngineState() {
+		return this.engineState;
+	}
 
 	public static GameEngine getInstance() {
 		return instance;
-	}
-
-	public EnumEngineState getEngineState() {
-		return this.engineState;
 	}
 }
