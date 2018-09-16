@@ -135,6 +135,8 @@ public final class GameEngine {
 		
 		// REDNER STATIC GUI
 		g.setTransform(saveState);
+		g.setColor(Color.black);
+		g.drawRect(0, 1960, 200, 200);
 	}
 	
 	private void run() {
