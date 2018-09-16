@@ -109,14 +109,8 @@ public final class GameEngine {
 	
 	private void run() {
 		this.engineState = EnumEngineState.RUNNING;
-		// ALL TIME VARS ARE IN NANO TIME
-//		int counter = 0;
-//		final double FRAMES_PER_SECOND = 60;
-//		final double NS_PER_FRAME = 1000000000 / FRAMES_PER_SECOND;
 		
 		while (this.engineState == EnumEngineState.RUNNING) {
-//			double startTime = System.nanoTime();
-			
 			captureInput();
 			
 			update();
@@ -127,29 +121,7 @@ public final class GameEngine {
 			g.dispose();
 			screenManager.updateDisplay(); // SYNCS SCREEN WITH VSync
 			// END RENDER
-			
-			// THE FOLLOWING IS BELIEVED TO NOT BE NECESSARY AS THE WAY THE FRAME RENDERS WILL CAP THE FPS AT THE MONITOR'S REFRESH RATE
-			
-			
-			// SLEEP A BIT
-//			double stopTime = System.nanoTime();
-//			double duration = stopTime - startTime;
-//			double sleepTime = NS_PER_FRAME - duration;
-//			try {
-//				if (sleepTime < 0) {
-//					System.err.println("RUNNING BEHIND!!!");
-//					System.out.println(duration);
-//					System.out.println(sleepTime);
-//					System.out.println(NS_PER_FRAME);
-//					System.out.println(counter);
-//				} else {
-//					Thread.sleep((long) sleepTime / 1000000);
-//				}
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
 		}
-		
 		
 		this.engineState = EnumEngineState.STOPPING;
 	}
