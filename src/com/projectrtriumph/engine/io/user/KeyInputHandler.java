@@ -3,6 +3,8 @@ package com.projectrtriumph.engine.io.user;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import com.projectrtriumph.engine.rendering.ScreenManager;
+
 public class KeyInputHandler implements KeyListener {
 	private boolean[] keyDown;
 	private boolean[] frameKeyDown;
@@ -23,6 +25,10 @@ public class KeyInputHandler implements KeyListener {
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_UP) {
+			ScreenManager.getInstance().getCamera().onArrowKeyEvent(e);
+		}
+		
 		this.keyDown[e.getKeyCode()] = true;
 	}
 	

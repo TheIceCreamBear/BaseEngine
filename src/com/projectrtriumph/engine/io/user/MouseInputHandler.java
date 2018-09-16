@@ -6,6 +6,8 @@ import java.awt.event.MouseWheelListener;
 
 import javax.swing.event.MouseInputListener;
 
+import com.projectrtriumph.engine.rendering.ScreenManager;
+
 // TODO implement
 public class MouseInputHandler implements MouseInputListener, MouseWheelListener {
 	
@@ -52,7 +54,7 @@ public class MouseInputHandler implements MouseInputListener, MouseWheelListener
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		
+		ScreenManager.getInstance().getCamera().onMouseWheelEvent(e);
 	}
 	
 	public void captureInput() {

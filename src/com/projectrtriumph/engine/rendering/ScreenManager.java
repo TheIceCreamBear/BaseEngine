@@ -11,10 +11,12 @@ import javax.swing.JFrame;
 
 import com.projectrtriumph.engine.io.user.KeyInputHandler;
 import com.projectrtriumph.engine.io.user.MouseInputHandler;
+import com.projectrtriumph.engine.math.shape.Rectangle;
 
 public class ScreenManager {
 	private GraphicsDevice device;
 	private final JFrame frame;
+	private final Camera camera;
 	
 	private static ScreenManager instance;
 	
@@ -28,6 +30,8 @@ public class ScreenManager {
 		this.frame.setIgnoreRepaint(true);
 		this.frame.setResizable(false);
 		
+		this.camera = new Camera();
+		
 		this.device.setFullScreenWindow(frame);
 		this.device.setDisplayMode(device.getDisplayMode());
 		
@@ -40,7 +44,8 @@ public class ScreenManager {
 		Window window = device.getFullScreenWindow();
 		if (window != null) {
 			BufferStrategy strategy = window.getBufferStrategy();
-			return (Graphics2D) strategy.getDrawGraphics();
+			Graphics2D g = (Graphics2D) strategy.getDrawGraphics();
+			return g;
 		}
 		return null;
 	}
@@ -64,10 +69,18 @@ public class ScreenManager {
 		return device.getDisplayMode().getHeight();
 	}
 	
+	public Rectangle getScreenBounds() {
+		return new Rectangle(0, 0, getScreenWidth(), getScreenHeight());
+	}
+	
 	public void addInputListeners(KeyInputHandler kih, MouseInputHandler mih) {
 		this.frame.addKeyListener(kih);
 		this.frame.addMouseListener(mih);
 		this.frame.addMouseWheelListener(mih);
+	}
+	
+	public Camera getCamera() {
+		return this.camera;
 	}
 	
 	public static ScreenManager getInstance() {

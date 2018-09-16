@@ -2,6 +2,8 @@ package com.projectrtriumph.engine;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
 
 import com.projectrtriumph.engine.io.user.KeyInputHandler;
 import com.projectrtriumph.engine.io.user.MouseInputHandler;
@@ -58,6 +60,11 @@ public final class GameEngine {
 	private void captureInput() {
 		this.keyHandler.captureInput();
 		this.mouseHandler.captureInput();
+		
+		// TODO Remove this debug code
+		if (this.keyHandler.isKeyDown(KeyEvent.VK_ESCAPE)) {
+			System.exit(0);
+		}
 	}
 
 	// TODO implement
@@ -76,7 +83,6 @@ public final class GameEngine {
 		}
 	}
 	
-	int asdf;
 	int asdfg;
 	int dg;
 	
@@ -84,6 +90,10 @@ public final class GameEngine {
 	private void render(Graphics2D g) {
 		// Black out the screen to prevent old stuff from showing
 		g.fillRect(0, 0, screenManager.getScreenWidth(), screenManager.getScreenHeight());
+		AffineTransform saveState = g.getTransform();
+		g.transform(ScreenManager.getInstance().getCamera().getCurrentTransform());
+		
+		// RENDER UPDATEABLE
 		switch (renderState) {
 			case SPLASH:
 				break;
@@ -94,8 +104,8 @@ public final class GameEngine {
 					dg = 1;
 				}
 				asdfg += dg;
-				g.setColor(new Color(asdfg, asdfg, asdfg));
-				g.fillRect(asdf++, 200, 20, 20);
+				g.setColor(new Color(asdfg, 100, 100));
+				g.fillRect(500, 200, 20, 20);
 				break;
 			case PAUSE_MENU:
 				break;
@@ -104,16 +114,20 @@ public final class GameEngine {
 			default:
 				break;
 		}
+		
+		// REDNER STATIC GUI
+		g.setTransform(saveState);
 	}
 	
 	private void run() {
 		this.engineState = EnumEngineState.RUNNING;
-		// ALL TIME VARS ARE IN MILI TIME
-		final double TICKS_PER_SECOND = 60;
-		final double MS_PER_FRAME = 1000 / TICKS_PER_SECOND;
+		// ALL TIME VARS ARE IN NANO TIME
+//		int counter = 0;
+//		final double FRAMES_PER_SECOND = 60;
+//		final double NS_PER_FRAME = 1000000000 / FRAMES_PER_SECOND;
 		
 		while (this.engineState == EnumEngineState.RUNNING) {
-			double startTime = System.currentTimeMillis();
+//			double startTime = System.nanoTime();
 			
 			captureInput();
 			
@@ -123,20 +137,29 @@ public final class GameEngine {
 			Graphics2D g = screenManager.getRenderGraphics();
 			render(g);
 			g.dispose();
-			screenManager.updateDisplay();
+			screenManager.updateDisplay(); // SYNCS SCREEN WITH VSync
 			// END RENDER
 			
+			// THE FOLLOWING IS BELIEVED TO NOT BE NECESSARY AS THE WAY THE FRAME RENDERS WILL CAP THE FPS AT THE MONITOR'S REFRESH RATE
+			
+			
 			// SLEEP A BIT
-			double sleepTime = MS_PER_FRAME + startTime - System.currentTimeMillis();
-			try {
-				if (sleepTime < 0) {
-					System.err.println("RUNNING BEHIND!!!");
-				} else {
-					Thread.sleep((long) sleepTime);
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+//			double stopTime = System.nanoTime();
+//			double duration = stopTime - startTime;
+//			double sleepTime = NS_PER_FRAME - duration;
+//			try {
+//				if (sleepTime < 0) {
+//					System.err.println("RUNNING BEHIND!!!");
+//					System.out.println(duration);
+//					System.out.println(sleepTime);
+//					System.out.println(NS_PER_FRAME);
+//					System.out.println(counter);
+//				} else {
+//					Thread.sleep((long) sleepTime / 1000000);
+//				}
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
 		}
 		
 		
