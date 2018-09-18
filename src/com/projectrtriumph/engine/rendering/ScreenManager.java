@@ -75,6 +75,10 @@ public class ScreenManager {
 		return device.getDisplayMode().getHeight();
 	}
 	
+	public int getRefreshRate() {
+		return device.getDisplayMode().getRefreshRate();
+	}
+	
 	public Rectangle getScreenBounds() {
 		return new Rectangle(0, 0, getScreenWidth(), getScreenHeight());
 	}
