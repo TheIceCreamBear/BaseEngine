@@ -1,5 +1,6 @@
 package com.projecttriumph.engine;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
@@ -11,6 +12,7 @@ import javax.imageio.ImageIO;
 
 import com.projecttriumph.engine.io.user.KeyInputHandler;
 import com.projecttriumph.engine.io.user.MouseInputHandler;
+import com.projecttriumph.engine.math.MathHelper;
 import com.projecttriumph.engine.rendering.ScreenManager;
 
 public final class GameEngine {
@@ -22,11 +24,13 @@ public final class GameEngine {
 		SPLASH, MENU, GAME, PAUSE_MENU;
 	}
 	
-	private enum EnumUpdateSkipping {
-		NO_SKIP, // for when the refresh rate is 60
-		TWO_UPDATES_PER_FRAME, // for when the refresh rate is 30
-		TWO_FRAMES_PER_UPDATE, // for when the refresh rate is 120
-		FOUR_FRAMES_PER_UPDATE; // for the RARE case that the refresh rate is 240
+	public enum EnumLockedFrameRate {
+		NOT_INIT,
+		NO,
+		YES_30,
+		YES_60,
+		YES_120,
+		YES_240;
 	}
 	
 	/**
@@ -37,7 +41,7 @@ public final class GameEngine {
 	// States
 	private EnumEngineState engineState = EnumEngineState.INVALID;
 	private EnumEngineRenderState renderState = EnumEngineRenderState.SPLASH;
-	private final EnumUpdateSkipping skipping;
+	private EnumLockedFrameRate frameRateType = EnumLockedFrameRate.NOT_INIT;
 	
 	// Rendering vars
 	private ScreenManager screenManager;
@@ -48,6 +52,7 @@ public final class GameEngine {
 	 * {@link EnumUpdateSkipping#FOUR_FRAMES_PER_UPDATE}
 	 */
 	private int framesTillUpdate;
+	private int updatesTillNonRound;
 	
 	// Input Handlers
 	private KeyInputHandler keyHandler;
@@ -58,26 +63,6 @@ public final class GameEngine {
 	
 	public GameEngine(ScreenManager screenManager) {
 		this.screenManager = screenManager;
-		switch (this.screenManager.getRefreshRate()) {
-			case 30:
-				this.skipping = EnumUpdateSkipping.TWO_UPDATES_PER_FRAME;
-				break;
-			case 60:
-				this.skipping = EnumUpdateSkipping.NO_SKIP;
-				break;
-			case 120:
-				this.skipping = EnumUpdateSkipping.TWO_FRAMES_PER_UPDATE;
-				this.framesTillUpdate = 1;
-				break;
-			case 240:
-				this.skipping = EnumUpdateSkipping.FOUR_FRAMES_PER_UPDATE;
-				this.framesTillUpdate = 3;
-				break;
-			default:
-				this.skipping = EnumUpdateSkipping.NO_SKIP;
-				// TODO Remove support for nonlisted monitor refresh rates
-				break;
-		}
 		try {
 			this.img = ImageIO.read(new File("Gradient.png"));
 		} catch (IOException e) {
@@ -150,6 +135,8 @@ public final class GameEngine {
 				break;
 			case MENU:
 				g.drawImage(img, 0, 0, null);
+				g.setColor(Color.BLUE);
+				g.fillRect(400, 400, 200, 200);
 				break;
 			case PAUSE_MENU:
 				break;
@@ -166,23 +153,30 @@ public final class GameEngine {
 	private void run() {
 		this.engineState = EnumEngineState.RUNNING;
 		
-		long timer = System.currentTimeMillis();
+		final double _30hz = 1000.0 / 30;
+		final double _60hz = 1000.0 / 60;
+		final double _120hz = 1000.0 / 120;
+		final double _240hz = 1000.0 / 240;
+		final double TIMER_PER_FRAME = _60hz;
 		
-		while (this.engineState == EnumEngineState.RUNNING) {	
+		long timer = System.currentTimeMillis();
+		long start = System.currentTimeMillis();
+		
+		while (this.engineState == EnumEngineState.RUNNING) {
+			start = System.currentTimeMillis();
 			// system to make sure there is always 60 UPS
-			switch (this.skipping) {
-				case FOUR_FRAMES_PER_UPDATE:
-					if (this.framesTillUpdate == 0) {
-						this.update();
-						this.framesTillUpdate = 3;
-					} else {
-						this.framesTillUpdate--;
-					}
-					break;
-				case NO_SKIP:
+			switch (this.frameRateType) {
+				case YES_30:
+					update();
 					update();
 					break;
-				case TWO_FRAMES_PER_UPDATE:
+				// NOT_INIT AND NO WILL RUN AT A NORMAL SPEED WHICH IS EQUAL TO 60TPS
+				case NOT_INIT:
+				case NO:
+				case YES_60:
+					update();
+					break;
+				case YES_120:
 					if (this.framesTillUpdate == 0) {
 						this.update();
 						this.framesTillUpdate = 2;
@@ -190,11 +184,17 @@ public final class GameEngine {
 						this.framesTillUpdate--;
 					}
 					break;
-				case TWO_UPDATES_PER_FRAME:
-					update();
-					update();
+				case YES_240:
+					if (this.framesTillUpdate == 0) {
+						this.update();
+						this.framesTillUpdate = 3;
+					} else {
+						this.framesTillUpdate--;
+					}
 					break;
 				default:
+					System.err.println("INVALID STATE!!!!");
+					
 					break;
 			}
 			
@@ -204,6 +204,41 @@ public final class GameEngine {
 			g.dispose();
 			screenManager.updateDisplay(); // SYNCS SCREEN WITH VSync
 			// END RENDER
+			long elapsed = System.currentTimeMillis() - start;
+			if (this.frameRateType == EnumLockedFrameRate.NOT_INIT) {
+				if (MathHelper.equal(elapsed, _30hz, 0.0001)) {
+					this.frameRateType = EnumLockedFrameRate.YES_30;
+				} else if (MathHelper.equal(elapsed, _60hz, 0.0001)) {
+					this.frameRateType = EnumLockedFrameRate.YES_60;
+				} else if (MathHelper.equal(elapsed, _120hz, 0.0001)) {
+					this.frameRateType = EnumLockedFrameRate.YES_120;
+				} else if (MathHelper.equal(elapsed, _240hz, 0.0001)) {
+					this.frameRateType = EnumLockedFrameRate.YES_240;
+				} else {
+					this.frameRateType = EnumLockedFrameRate.NO;
+					this.updatesTillNonRound = 2;
+				}
+				System.err.println(this.frameRateType);
+			}
+			
+			if (this.frameRateType == EnumLockedFrameRate.NO) {
+				long sleepTime;
+				if (this.updatesTillNonRound == 0) {
+					sleepTime = (long) (TIMER_PER_FRAME - elapsed);
+					this.updatesTillNonRound = 2;
+				} else {
+					sleepTime = Math.round(TIMER_PER_FRAME - elapsed);
+					this.updatesTillNonRound--;
+				}
+
+				if (sleepTime >= 0) {
+					try {
+						Thread.sleep(sleepTime);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
 			
 			if (System.currentTimeMillis() - timer > 1000) {
 				System.out.println(ticks + "TPS");
