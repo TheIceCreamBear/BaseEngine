@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 import com.projecttriumph.engine.math.shape.Rectangle;
 
 public class Camera {
+	private static final int SCEEN_OFF_SET_PER_KEY = 5;
 	private final int screenWidth;
 	private final int screenHeight;
 	private final int screenCenterX;
@@ -32,16 +33,16 @@ public class Camera {
 		// TODO tweak movement as needed.
 		switch(e.getKeyCode()) {
 			case KeyEvent.VK_LEFT:
-				this.offsetX -= 2;
+				this.offsetX -= SCEEN_OFF_SET_PER_KEY;
 				break;
 			case KeyEvent.VK_RIGHT:
-				this.offsetX += 2;
+				this.offsetX += SCEEN_OFF_SET_PER_KEY;
 				break;
 			case KeyEvent.VK_DOWN:
-				this.offsetY += 2;
+				this.offsetY += SCEEN_OFF_SET_PER_KEY;
 				break;
 			case KeyEvent.VK_UP:
-				this.offsetY -= 2;
+				this.offsetY -= SCEEN_OFF_SET_PER_KEY;
 				break;
 		}
 	}
