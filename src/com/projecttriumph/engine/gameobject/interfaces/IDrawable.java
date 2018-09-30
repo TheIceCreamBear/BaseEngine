@@ -1,4 +1,4 @@
-package com.projecttriumph.engine.gameobject;
+package com.projecttriumph.engine.gameobject.interfaces;
 
 import java.awt.Graphics2D;
 
@@ -9,7 +9,7 @@ import java.awt.Graphics2D;
  * 
  * @author Joseph
  */
-public interface IDrawable {
+public interface IDrawable extends IBoundingBox {
 	/**
 	 * The method that will be called by the engine to draw each and every object that can
 	 * be seen on the screen.
