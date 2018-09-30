@@ -66,7 +66,6 @@ public final class GameEngine {
 		try {
 			this.img = ImageIO.read(new File("Gradient.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -152,7 +151,9 @@ public final class GameEngine {
 	
 	private void run() {
 		this.engineState = EnumEngineState.RUNNING;
-		
+		double totalElapsed = 0;
+		int updatesTillInit = 81;
+		final double numberTimesRun = updatesTillInit - 21;
 		final double _30hz = 1000.0 / 30;
 		final double _60hz = 1000.0 / 60;
 		final double _120hz = 1000.0 / 120;
@@ -172,6 +173,9 @@ public final class GameEngine {
 					break;
 				// NOT_INIT AND NO WILL RUN AT A NORMAL SPEED WHICH IS EQUAL TO 60TPS
 				case NOT_INIT:
+					if (updatesTillInit > 0) {
+						updatesTillInit--;
+					}
 				case NO:
 				case YES_60:
 					update();
@@ -206,19 +210,27 @@ public final class GameEngine {
 			// END RENDER
 			long elapsed = System.currentTimeMillis() - start;
 			if (this.frameRateType == EnumLockedFrameRate.NOT_INIT) {
-				if (MathHelper.equal(elapsed, _30hz, 0.0001)) {
-					this.frameRateType = EnumLockedFrameRate.YES_30;
-				} else if (MathHelper.equal(elapsed, _60hz, 0.0001)) {
-					this.frameRateType = EnumLockedFrameRate.YES_60;
-				} else if (MathHelper.equal(elapsed, _120hz, 0.0001)) {
-					this.frameRateType = EnumLockedFrameRate.YES_120;
-				} else if (MathHelper.equal(elapsed, _240hz, 0.0001)) {
-					this.frameRateType = EnumLockedFrameRate.YES_240;
-				} else {
-					this.frameRateType = EnumLockedFrameRate.NO;
-					this.updatesTillNonRound = 2;
+				if (!(updatesTillInit >= numberTimesRun)) {
+					totalElapsed += elapsed;
 				}
-				System.err.println(this.frameRateType);
+				if (updatesTillInit == 0) {
+					double averageElapsed = totalElapsed / numberTimesRun;
+					System.err.println(averageElapsed);
+					System.out.println(_60hz);
+					if (MathHelper.equal(averageElapsed, _30hz, 0.001)) {
+						this.frameRateType = EnumLockedFrameRate.YES_30;
+					} else if (MathHelper.equal(averageElapsed, _60hz, 0.001)) {
+						this.frameRateType = EnumLockedFrameRate.YES_60;
+					} else if (MathHelper.equal(averageElapsed, _120hz, 0.001)) {
+						this.frameRateType = EnumLockedFrameRate.YES_120;
+					} else if (MathHelper.equal(averageElapsed, _240hz, 0.001)) {
+						this.frameRateType = EnumLockedFrameRate.YES_240;
+					} else {
+						this.frameRateType = EnumLockedFrameRate.NO;
+						this.updatesTillNonRound = 2;
+					}
+					System.err.println(this.frameRateType);
+				}
 			}
 			
 			if (this.frameRateType == EnumLockedFrameRate.NO) {
