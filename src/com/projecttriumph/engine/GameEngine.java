@@ -20,10 +20,6 @@ public final class GameEngine {
 		INVALID, INITIALIZING, RUNNING, STOPPING;
 	}
 	
-	public enum EnumEngineRenderState {
-		SPLASH, MENU, GAME, PAUSE_MENU;
-	}
-	
 	public enum EnumLockedFrameRate {
 		NOT_INIT,
 		NO,
@@ -40,7 +36,6 @@ public final class GameEngine {
 	
 	// States
 	private EnumEngineState engineState = EnumEngineState.INVALID;
-	private EnumEngineRenderState renderState = EnumEngineRenderState.SPLASH;
 	private EnumLockedFrameRate frameRateType = EnumLockedFrameRate.NOT_INIT;
 	
 	// Rendering vars
@@ -84,7 +79,6 @@ public final class GameEngine {
 		this.mouseHandler = new MouseInputHandler();
 		this.screenManager.addInputListeners(keyHandler, mouseHandler);
 		
-		this.renderState = EnumEngineRenderState.MENU;
 		System.gc();
 	}
 	
@@ -105,19 +99,7 @@ public final class GameEngine {
 		
 		// TODO: implement thread splitting
 		
-		// render
-		switch (renderState) {
-			case SPLASH:
-				break;
-			case MENU:
-				break;
-			case PAUSE_MENU:
-				break;
-			case GAME:
-				break;
-			default:
-				break;
-		}
+		// update
 		ticks++;
 	}
 	
@@ -129,21 +111,9 @@ public final class GameEngine {
 		g.fillRect(0, 0, screenManager.getScreenWidth(), screenManager.getScreenHeight());
 		
 		// RENDER UPDATEABLE
-		switch (renderState) {
-			case SPLASH:
-				break;
-			case MENU:
-				g.drawImage(img, 0, 0, null);
-				g.setColor(Color.BLUE);
-				g.fillRect(400, 400, 200, 200);
-				break;
-			case PAUSE_MENU:
-				break;
-			case GAME:
-				break;
-			default:
-				break;
-		}
+		g.drawImage(img, 0, 0, null);
+		g.setColor(Color.BLUE);
+		g.fillRect(400, 400, 200, 200);
 		
 		// REDNER STATIC GUI
 		g.setTransform(saveState);
@@ -209,6 +179,7 @@ public final class GameEngine {
 			screenManager.updateDisplay(); // SYNCS SCREEN WITH VSync
 			// END RENDER
 			long elapsed = System.currentTimeMillis() - start;
+			
 			if (this.frameRateType == EnumLockedFrameRate.NOT_INIT) {
 				if (!(updatesTillInit >= numberTimesRun)) {
 					totalElapsed += elapsed;
