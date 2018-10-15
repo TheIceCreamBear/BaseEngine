@@ -13,6 +13,7 @@ public class Camera {
 	private final int screenHeight;
 	private final int screenCenterX;
 	private final int screenCenterY;
+	private double scale = 1.0;
 	private int zoomScale = 1;
 	private int offsetX = 0;
 	private int offsetY = 0;
@@ -25,8 +26,31 @@ public class Camera {
 	}
 	
 	public void onMouseWheelEvent(MouseWheelEvent event) {
-		zoomScale -= event.getWheelRotation();
-		zoomScale = Math.max(1, zoomScale);
+		// zoom
+		int rotation = event.getWheelRotation();
+		if (zoomScale == 1) {
+			if (rotation < 0) { // up/away from user (zooming in)
+				zoomScale -= rotation;
+			} else { // down/towards from user (zooming out)
+				zoomScale = -1 - rotation;
+			}
+		} else if (zoomScale == -1) { 
+			if (rotation > 0) { // down/towards from user (zooming out)
+				zoomScale = 1 - rotation;
+			} else { // up/away from user (zooming in)
+				zoomScale -= rotation;
+			}
+		} else {
+			zoomScale -= event.getWheelRotation();
+		}
+		
+		if (zoomScale < 0) {
+			scale = 1.0 / Math.abs(zoomScale);
+		} else if (zoomScale == 0) {
+			scale = 1;
+		} else {
+			scale = Math.abs(zoomScale);
+		}
 	}
 	
 	public void onArrowKeyEvent(KeyEvent e) {
@@ -50,9 +74,9 @@ public class Camera {
 	public AffineTransform getCurrentTransform() {
 		AffineTransform at = new AffineTransform();
 		// shifts the center of the scaled screen to the center of the screen to create zooming from center
-		at.translate(-screenCenterX * (zoomScale - 1), -screenCenterY * (zoomScale - 1));
-		// zooms the screen (currently only in)
-		at.scale(zoomScale, zoomScale);
+		at.translate(-screenCenterX * (scale - 1), -screenCenterY * (scale - 1));
+		// zooms the screen 
+		at.scale(scale, scale);
 		// Translates to the off set position
 		at.translate(offsetX, offsetY);
 		return at;
