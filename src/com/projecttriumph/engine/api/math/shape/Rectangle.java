@@ -1,4 +1,4 @@
-package com.projecttriumph.engine.math.shape;
+package com.projecttriumph.engine.api.math.shape;
 
 import java.awt.geom.Rectangle2D;
 

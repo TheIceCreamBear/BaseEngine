@@ -1,6 +1,6 @@
 package com.projecttriumph.engine.gameobject.interfaces;
 
-import com.projecttriumph.engine.math.shape.Rectangle;
+import com.projecttriumph.engine.api.math.shape.Rectangle;
 
 public interface IBoundingBox {
 	

@@ -1,4 +1,4 @@
-package com.projecttriumph.engine.math;
+package com.projecttriumph.engine.api.math;
 
 /**
  * A class representing a 2D vector. Can be used to represent movement or acceleration of an object.

@@ -2,7 +2,7 @@ package com.projecttriumph.engine.gameobject.interfaces;
 
 import java.awt.geom.Point2D;
 
-import com.projecttriumph.engine.math.Vector;
+import com.projecttriumph.engine.api.math.Vector;
 
 public interface IWaypointListener {
 	/**

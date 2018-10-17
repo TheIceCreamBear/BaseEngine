@@ -1,4 +1,4 @@
-package com.projecttriumph.engine.math;
+package com.projecttriumph.engine.api.math;
 
 public class MathHelper {
 	public static boolean equal(double a, double b, double error) {

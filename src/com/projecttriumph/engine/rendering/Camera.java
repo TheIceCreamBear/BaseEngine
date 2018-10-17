@@ -5,7 +5,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
-import com.projecttriumph.engine.math.shape.Rectangle;
+import com.projecttriumph.engine.api.math.shape.Rectangle;
 
 public class Camera {
 	private static final int SCEEN_OFF_SET_PER_KEY = 5;

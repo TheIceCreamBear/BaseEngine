@@ -2,6 +2,7 @@ package com.projecttriumph.engine;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Polygon;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -10,9 +11,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.projecttriumph.engine.api.math.MathHelper;
 import com.projecttriumph.engine.io.user.KeyInputHandler;
 import com.projecttriumph.engine.io.user.MouseInputHandler;
-import com.projecttriumph.engine.math.MathHelper;
 import com.projecttriumph.engine.rendering.ScreenManager;
 
 public final class GameEngine {
@@ -55,11 +56,15 @@ public final class GameEngine {
 	
 	// TODO temp
 	BufferedImage img;
+	Polygon shape = new Polygon(new int[] {0, 299, 49, 49, 99, 99, -100, -100, -50, -50, -300, 0}, new int[] {-400, 399, 399, 449, 449, 399, 399, 449, 449, 399, 399, -400}, 12);
+
 	
 	public GameEngine(ScreenManager screenManager) {
 		this.screenManager = screenManager;
+		shape.translate(500, 550);
 		try {
-			this.img = ImageIO.read(new File("Gradient.png"));
+			this.img = ImageIO.read(new File("C:/Users/Joseph/Desktop/Gradient.png"));
+//			this.img = ImageIO.read(new File("C:/Users/s25338732/Desktop/Gradient.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -106,14 +111,19 @@ public final class GameEngine {
 	// TODO implement
 	private void render(Graphics2D g) {
 		// Black out the screen to prevent old stuff from showing
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, screenManager.getScreenWidth(), screenManager.getScreenHeight());
+		
+		// Set the transform for zoom to draw the zoomed stuffs
 		AffineTransform saveState = g.getTransform();
 		g.transform(ScreenManager.getInstance().getCamera().getCurrentTransform());
-		g.fillRect(0, 0, screenManager.getScreenWidth(), screenManager.getScreenHeight());
 		
 		// RENDER UPDATEABLE
 		g.drawImage(img, 0, 0, null);
-		g.setColor(Color.BLUE);
-		g.fillRect(400, 400, 200, 200);
+//		g.setColor(Color.BLUE);
+//		g.fillRect(1600, 1000, 200, 200);
+		g.setColor(Color.BLACK);
+		g.draw(shape);
 		
 		// REDNER STATIC GUI
 		g.setTransform(saveState);
