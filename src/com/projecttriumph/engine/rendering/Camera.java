@@ -18,6 +18,11 @@ public class Camera {
 	private int offsetX = 0;
 	private int offsetY = 0;
 	
+	// test constructor, TODO remove
+	public Camera() {
+		this(0,0);
+	}
+	
 	public Camera(int screenWidth, int screenHeight) {
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
