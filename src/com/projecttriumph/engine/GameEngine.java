@@ -61,6 +61,7 @@ public final class GameEngine {
 	
 	public GameEngine(ScreenManager screenManager) {
 		this.screenManager = screenManager;
+		// TODO the following code is temporary
 		shape.translate(500, 550);
 		try {
 			this.img = ImageIO.read(new File("C:/Users/Joseph/Desktop/Gradient.png"));
@@ -120,8 +121,8 @@ public final class GameEngine {
 		
 		// RENDER UPDATEABLE
 		g.drawImage(img, 0, 0, null);
-//		g.setColor(Color.BLUE);
-//		g.fillRect(1600, 1000, 200, 200);
+		g.setColor(Color.BLUE);
+		g.fillRect(400, 400, 200, 200);
 		g.setColor(Color.BLACK);
 		g.draw(shape);
 		
@@ -198,13 +199,13 @@ public final class GameEngine {
 					double averageElapsed = totalElapsed / numberTimesRun;
 					System.err.println(averageElapsed);
 					System.out.println(_60hz);
-					if (MathHelper.equal(averageElapsed, _30hz, 0.001)) {
+					if (MathHelper.equal(averageElapsed, _30hz, 0.1)) {
 						this.frameRateType = EnumLockedFrameRate.YES_30;
-					} else if (MathHelper.equal(averageElapsed, _60hz, 0.001)) {
+					} else if (MathHelper.equal(averageElapsed, _60hz, 0.1)) {
 						this.frameRateType = EnumLockedFrameRate.YES_60;
-					} else if (MathHelper.equal(averageElapsed, _120hz, 0.001)) {
+					} else if (MathHelper.equal(averageElapsed, _120hz, 0.1)) {
 						this.frameRateType = EnumLockedFrameRate.YES_120;
-					} else if (MathHelper.equal(averageElapsed, _240hz, 0.001)) {
+					} else if (MathHelper.equal(averageElapsed, _240hz, 0.1)) {
 						this.frameRateType = EnumLockedFrameRate.YES_240;
 					} else {
 						this.frameRateType = EnumLockedFrameRate.NO;
@@ -226,6 +227,9 @@ public final class GameEngine {
 
 				if (sleepTime >= 0) {
 					try {
+						if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+							sleepTime -= 1;
+						}
 						Thread.sleep(sleepTime);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
