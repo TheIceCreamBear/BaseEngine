@@ -33,6 +33,7 @@ public class ScreenManager {
 		this.device.setFullScreenWindow(frame);
 		this.device.setDisplayMode(device.getDisplayMode());
 		
+		// TODO make the camera be set somewhere else
 		this.camera = new Camera(getScreenWidth(), getScreenHeight());
 		
 		this.frame.createBufferStrategy(2);
