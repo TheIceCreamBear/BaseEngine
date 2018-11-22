@@ -41,9 +41,9 @@ public class Camera {
 			}
 		} else if (zoomScale == -1) { 
 			if (rotation > 0) { // down/towards from user (zooming out)
-				zoomScale = 1 - rotation;
-			} else { // up/away from user (zooming in)
 				zoomScale -= rotation;
+			} else { // up/away from user (zooming in)
+				zoomScale = 1 - rotation;
 			}
 		} else {
 			zoomScale -= event.getWheelRotation();
