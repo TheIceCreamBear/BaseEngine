@@ -9,11 +9,8 @@ import javax.swing.event.MouseInputListener;
 import com.projecttriumph.engine.rendering.ScreenManager;
 
 // TODO implement
-public class MouseInputHandler implements MouseInputListener, MouseWheelListener {
-	
-	
-	
-	public MouseInputHandler() {
+public class EngineMouseInputHandler implements MouseInputListener, MouseWheelListener {
+	public EngineMouseInputHandler() {
 		
 	}
 	
@@ -54,10 +51,7 @@ public class MouseInputHandler implements MouseInputListener, MouseWheelListener
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
+		// TODO check to make sure not over GUI element with scrolling 
 		ScreenManager.getInstance().getCamera().onMouseWheelEvent(e);
-	}
-	
-	public void captureInput() {
-		
 	}
 }

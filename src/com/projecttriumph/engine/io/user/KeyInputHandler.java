@@ -7,7 +7,7 @@ import com.projecttriumph.engine.rendering.ScreenManager;
 
 public class KeyInputHandler implements KeyListener {
 	private boolean[] keyDown;
-	private boolean[] frameKeyDown;
+	protected boolean[] frameKeyDown;
 	
 	private static KeyInputHandler instance;
 	

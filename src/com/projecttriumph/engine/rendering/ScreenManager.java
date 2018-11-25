@@ -11,7 +11,8 @@ import javax.swing.JFrame;
 
 import com.projecttriumph.engine.api.math.shape.Rectangle;
 import com.projecttriumph.engine.io.user.KeyInputHandler;
-import com.projecttriumph.engine.io.user.MouseInputHandler;
+import com.projecttriumph.engine.io.user.EngineMouseInputHandler;
+import com.projecttriumph.engine.io.user.IGameMouseInputHandler;
 
 public class ScreenManager {
 	private GraphicsDevice device;
@@ -62,10 +63,21 @@ public class ScreenManager {
 		Toolkit.getDefaultToolkit().sync();
 	}
 	
-	public void addInputListeners(KeyInputHandler kih, MouseInputHandler mih) {
+	public void addGameMouseListener(IGameMouseInputHandler gmih) {
+		this.frame.addMouseListener(gmih);
+		this.frame.addMouseWheelListener(gmih);
+	}
+	
+	public void removeGameMouseListener(IGameMouseInputHandler gmih) {
+		// TODO safety check
+		this.frame.removeMouseListener(gmih);
+		this.frame.removeMouseWheelListener(gmih);
+	}
+	
+	public void addInputListeners(KeyInputHandler kih, EngineMouseInputHandler emih) {
 		this.frame.addKeyListener(kih);
-		this.frame.addMouseListener(mih);
-		this.frame.addMouseWheelListener(mih);
+		this.frame.addMouseListener(emih);
+		this.frame.addMouseWheelListener(emih);
 	}
 	
 	public int getScreenWidth() {

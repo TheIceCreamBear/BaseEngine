@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 
 import com.projecttriumph.engine.api.math.MathHelper;
 import com.projecttriumph.engine.io.user.KeyInputHandler;
-import com.projecttriumph.engine.io.user.MouseInputHandler;
+import com.projecttriumph.engine.io.user.EngineMouseInputHandler;
 import com.projecttriumph.engine.rendering.ScreenManager;
 
 public final class GameEngine {
@@ -52,7 +52,8 @@ public final class GameEngine {
 	
 	// Input Handlers
 	private KeyInputHandler keyHandler;
-	private MouseInputHandler mouseHandler;
+	private EngineMouseInputHandler engineMouseHandler;
+//	private IGameMouseInputHandler gameMouseHandler;
 	
 	// TODO temp
 	BufferedImage img;
@@ -82,8 +83,8 @@ public final class GameEngine {
 		
 		// INPUT
 		this.keyHandler = new KeyInputHandler();
-		this.mouseHandler = new MouseInputHandler();
-		this.screenManager.addInputListeners(keyHandler, mouseHandler);
+		this.engineMouseHandler = new EngineMouseInputHandler();
+		this.screenManager.addInputListeners(keyHandler, engineMouseHandler);
 		
 		System.gc();
 	}
@@ -91,7 +92,7 @@ public final class GameEngine {
 	// TODO implement
 	private void captureInput() {
 		this.keyHandler.captureInput();
-		this.mouseHandler.captureInput();
+//		this.gameMouseHandler.captureInput();
 		
 		// TODO Remove this debug code
 		if (this.keyHandler.isKeyDown(KeyEvent.VK_ESCAPE)) {
