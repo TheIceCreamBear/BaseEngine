@@ -1,4 +1,4 @@
-package com.projecttriumph.engine.api;
+package com.projecttriumph.engine.api.game;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -31,14 +31,12 @@ public @interface Game {
 	String version();
 	
 	/**
-	 * A fully qualified class name referring to the class that is a subclass of {@link Camera}
-	 * for this game. If pointed at a class that does not extend {@link Camera}, 
-	 * the engine will crash.
+	 * An implementation of the {@link Camera} class, defining the camera motion for the game.
 	 * <p>
-	 * The default value is an empty string. If left empty, default functionality will be used. 
+	 * If left blank, the camera will default to the camera provided by the engine. 
 	 */
-	String camera() default "com.projecttriumph.engine.rendering.Camera";
-	
+	Class<? extends Camera> camera() default Camera.class;
+		
 	/**
 	 * Boolean value to determine if the game will support mods. Default is false.
 	 */
