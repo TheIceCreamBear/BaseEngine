@@ -5,15 +5,22 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.projecttriumph.engine.io.user.IGameKeyInputHandler;
+import com.projecttriumph.engine.io.user.IGameMouseInputHandler;
 import com.projecttriumph.engine.rendering.Camera;
 
 // TODO document
+/**
+ * The interface that the game will need to define on its main class in order to be 
+ * recognized as a valid game
+ * @author Joseph
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Game {
 	/**
-	 * Lowercase, no space, id name of this game. this will be used to make sub folders in the locations for
-	 * saves, mods, other things
+	 * Lowercase, no space, id name of this game. this will be used to make sub folders in 
+	 * the locations for saves, mods, other things
 	 */
 	String gameID();
 	
@@ -29,6 +36,18 @@ public @interface Game {
 	 * different versions of the same game to exist at once.
 	 */
 	String version();
+	
+	/**
+	 * An implementation of the {@link IGameMouseInputHandler} interface, defining the how the 
+	 * game will handle mouse input.
+	 */
+	Class<? extends IGameMouseInputHandler> mouseInput();
+	
+	/**
+	 * An implementation of the {@link IGameKeyInputHandler} interface, defining the how the 
+	 * game will handle key input.
+	 */
+	Class<? extends IGameKeyInputHandler> keyInput();
 	
 	/**
 	 * An implementation of the {@link Camera} class, defining the camera motion for the game.
