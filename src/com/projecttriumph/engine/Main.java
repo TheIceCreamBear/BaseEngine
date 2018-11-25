@@ -20,12 +20,12 @@ public class Main {
 			Runtime runtime = Runtime.getRuntime();
 			runtime.addShutdownHook(new ShutdownThread());
 			
+			// TODO this is where the selection of the game would take place
+//			List<Game> gamesInstalled;
 			
 			
 			ScreenManager manager = new ScreenManager();
 			GameEngine engine = new GameEngine(manager);
-			
-			// TODO this is where the selection of the game would take place
 			
 			engine.startEngine();
 		} catch (Exception e) {

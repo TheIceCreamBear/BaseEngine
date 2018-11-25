@@ -18,7 +18,7 @@ public class Camera {
 	private int offsetX = 0;
 	private int offsetY = 0;
 	
-	// test constructor, TODO remove
+	// test constructor, remove
 	public Camera() {
 		this(0,0);
 	}
@@ -59,7 +59,7 @@ public class Camera {
 	}
 	
 	public void onArrowKeyEvent(KeyEvent e) {
-		// TODO tweak movement as needed.
+		// TODO allow for dynamic key binding
 		switch(e.getKeyCode()) {
 			case KeyEvent.VK_LEFT:
 				this.offsetX -= SCEEN_OFF_SET_PER_KEY;
