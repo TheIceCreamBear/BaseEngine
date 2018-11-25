@@ -1,4 +1,4 @@
-package com.projecttriumph.engine.gameobject.interfaces;
+package com.projecttriumph.engine.api.interfaces;
 
 import com.projecttriumph.engine.api.math.shape.Rectangle;
 

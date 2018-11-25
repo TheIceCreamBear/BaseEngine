@@ -1,4 +1,4 @@
-package com.projecttriumph.engine.gameobject.interfaces;
+package com.projecttriumph.engine.api.interfaces;
 
 import java.awt.Graphics2D;
 
