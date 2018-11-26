@@ -97,4 +97,8 @@ public class Rectangle {
 				(tw < tx || tw > rx) &&
 				(th < ty || th > ry));
 	}
+	
+	public Rectangle2D getAsRect2D() {
+		return new Rectangle2D.Double(x, y, width, height);
+	}
 }
