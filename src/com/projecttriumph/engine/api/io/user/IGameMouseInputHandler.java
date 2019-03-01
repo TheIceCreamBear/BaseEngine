@@ -1,4 +1,4 @@
-package com.projecttriumph.engine.io.user;
+package com.projecttriumph.engine.api.io.user;
 
 import java.awt.event.MouseWheelListener;
 
