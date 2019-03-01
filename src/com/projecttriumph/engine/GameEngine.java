@@ -12,8 +12,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import com.projecttriumph.engine.api.math.MathHelper;
-import com.projecttriumph.engine.io.user.KeyInputHandler;
 import com.projecttriumph.engine.io.user.EngineMouseInputHandler;
+import com.projecttriumph.engine.io.user.KeyInputHandler;
 import com.projecttriumph.engine.rendering.ScreenManager;
 
 public final class GameEngine {
@@ -44,8 +44,8 @@ public final class GameEngine {
 	private int ticks = 0;
 	/**
 	 * Used to determine how many frames must be rendered before the next update.
-	 * Only used for {@link EnumUpdateSkipping#TWO_UPDATES_PER_FRAME} & 
-	 * {@link EnumUpdateSkipping#FOUR_FRAMES_PER_UPDATE}
+	 * Only used for {@link EnumLockedFrameRate#YES_120} & 
+	 * {@link EnumLockedFrameRate#YES_240}
 	 */
 	private int framesTillUpdate;
 	private int updatesTillNonRound;
@@ -66,7 +66,6 @@ public final class GameEngine {
 		shape.translate(500, 550);
 		try {
 			this.img = ImageIO.read(new File("C:/Users/Joseph/Desktop/Gradient.png"));
-//			this.img = ImageIO.read(new File("C:/Users/s25338732/Desktop/Gradient.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -124,7 +123,7 @@ public final class GameEngine {
 		g.drawImage(img, 0, 0, null);
 		g.setColor(Color.BLUE);
 		g.fillRect(400, 400, 200, 200);
-		g.setColor(Color.BLACK);
+		g.setColor(Color.green);
 		g.draw(shape);
 		
 		// REDNER STATIC GUI

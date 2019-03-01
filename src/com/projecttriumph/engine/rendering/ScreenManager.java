@@ -9,10 +9,10 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
+import com.projecttriumph.engine.api.io.user.IGameMouseInputHandler;
 import com.projecttriumph.engine.api.math.shape.Rectangle;
-import com.projecttriumph.engine.io.user.KeyInputHandler;
 import com.projecttriumph.engine.io.user.EngineMouseInputHandler;
-import com.projecttriumph.engine.io.user.IGameMouseInputHandler;
+import com.projecttriumph.engine.io.user.KeyInputHandler;
 
 public class ScreenManager {
 	private GraphicsDevice device;

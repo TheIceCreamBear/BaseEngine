@@ -5,8 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.projecttriumph.engine.io.user.IGameKeyInputHandler;
-import com.projecttriumph.engine.io.user.IGameMouseInputHandler;
+import com.projecttriumph.engine.api.io.user.IGameKeyInputHandler;
+import com.projecttriumph.engine.api.io.user.IGameMouseInputHandler;
 import com.projecttriumph.engine.rendering.Camera;
 
 // TODO document
