@@ -9,10 +9,10 @@ import com.projecttriumph.engine.api.io.user.IGameKeyInputHandler;
 import com.projecttriumph.engine.api.io.user.IGameMouseInputHandler;
 import com.projecttriumph.engine.rendering.Camera;
 
-// TODO document
+// TODO update docs
 /**
- * The interface that the game will need to define on its main class in order to be 
- * recognized as a valid game
+ * The @Game interface is used to tag a {@link com.projecttriumph.engine.api.game.GameController GameController}
+ * with game specific metadata and information that only needs to gathered at initialization.
  * @author Joseph
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -32,7 +32,7 @@ public @interface Game {
 	String gameName();
 	
 	/**
-	 * String representation of this game. Used for mod version checking and to allow for 
+	 * String representation of this game's version. Used for mod version checking and to allow for 
 	 * different versions of the same game to exist at once.
 	 */
 	String version();
@@ -58,6 +58,8 @@ public @interface Game {
 		
 	/**
 	 * Boolean value to determine if the game will support mods. Default is false.
+	 * <p>
+	 * NOTE: This is a placeholder for a possible future feature
 	 */
 	boolean allowMods() default false;
 }
