@@ -3,5 +3,10 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="F:/Programming/Libraries/Guava/26.0/guava-26.0-jre.jar" sourcepath="F:/Programming/Libraries/Guava/26.0/guava-26.0.zip"/>
+	<classpathentry kind="lib" path="F:/Programming/Libraries/ASM/7.2/asm-7.2.jar" sourcepath="F:/Programming/Libraries/ASM/7.2/asm-7.2-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/F:/Programming/Libraries/ASM/7.2/asm-7.2-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
