@@ -5,13 +5,13 @@ import java.awt.event.KeyListener;
 
 import com.projecttriumph.engine.rendering.ScreenManager;
 
-public class KeyInputHandler implements KeyListener {
+public class EngineKeyInputHandler implements KeyListener {
 	private boolean[] keyDown;
 	protected boolean[] frameKeyDown;
 	
-	private static KeyInputHandler instance;
+	private static EngineKeyInputHandler instance;
 	
-	public KeyInputHandler() {
+	public EngineKeyInputHandler() {
 		this.keyDown = new boolean[600];
 		this.frameKeyDown = this.keyDown.clone();
 		
@@ -45,7 +45,7 @@ public class KeyInputHandler implements KeyListener {
 		return this.frameKeyDown[keyCode];
 	}
 	
-	public static KeyInputHandler getInstance() {
+	public static EngineKeyInputHandler getInstance() {
 		return instance;
 	}
 }
