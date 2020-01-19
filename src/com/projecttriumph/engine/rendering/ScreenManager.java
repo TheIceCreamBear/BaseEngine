@@ -9,8 +9,10 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
+import com.projecttriumph.engine.api.io.user.IGameKeyInputHandler;
 import com.projecttriumph.engine.api.io.user.IGameMouseInputHandler;
 import com.projecttriumph.engine.api.math.shape.Rectangle;
+import com.projecttriumph.engine.gamediscover.GameContainer;
 import com.projecttriumph.engine.io.user.EngineMouseInputHandler;
 import com.projecttriumph.engine.io.user.KeyInputHandler;
 
@@ -21,11 +23,11 @@ public class ScreenManager {
 	
 	private static ScreenManager instance;
 	
-	public ScreenManager() {
+	public ScreenManager(GameContainer game) throws InstantiationException, IllegalAccessException {
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		this.device = env.getDefaultScreenDevice();
 		
-		this.frame = new JFrame();
+		this.frame = new JFrame(game.getGame().gameName());
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.frame.setUndecorated(true);
 		this.frame.setIgnoreRepaint(true);
@@ -34,8 +36,12 @@ public class ScreenManager {
 		this.device.setFullScreenWindow(frame);
 		this.device.setDisplayMode(device.getDisplayMode());
 		
-		// TODO make the camera be set somewhere else
-		this.camera = new Camera(getScreenWidth(), getScreenHeight());
+		if (game.getGame().camera() == Camera.class) {
+			this.camera = new Camera(device.getDisplayMode().getWidth(), device.getDisplayMode().getHeight());
+		} else {
+			Class<? extends Camera> cameraClass = game.getGame().camera();
+			this.camera = cameraClass.newInstance();
+		}
 		
 		this.frame.createBufferStrategy(2);
 		
@@ -74,22 +80,31 @@ public class ScreenManager {
 		this.frame.removeMouseWheelListener(gmih);
 	}
 	
+	public void addGameKeyListener(IGameKeyInputHandler gkih) {
+		this.frame.addKeyListener(gkih);
+	}
+	
+	public void removeGameKeyListener(IGameKeyInputHandler gkih) {
+		// TODO safety check
+		this.frame.removeKeyListener(gkih);
+	}
+	
 	public void addInputListeners(KeyInputHandler kih, EngineMouseInputHandler emih) {
 		this.frame.addKeyListener(kih);
 		this.frame.addMouseListener(emih);
 		this.frame.addMouseWheelListener(emih);
 	}
 	
-	public int getScreenWidth() {
-		return device.getDisplayMode().getWidth();
+	public static int getScreenWidth() {
+		return getInstance().device.getDisplayMode().getWidth();
 	}
 	
-	public int getScreenHeight() {
-		return device.getDisplayMode().getHeight();
+	public static int getScreenHeight() {
+		return getInstance().device.getDisplayMode().getHeight();
 	}
 	
-	public int getRefreshRate() {
-		return device.getDisplayMode().getRefreshRate();
+	public static int getRefreshRate() {
+		return getInstance().device.getDisplayMode().getRefreshRate();
 	}
 	
 	public Rectangle getScreenBounds() {
