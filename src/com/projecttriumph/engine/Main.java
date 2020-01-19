@@ -1,7 +1,15 @@
 package com.projecttriumph.engine;
 
+import java.io.File;
+import java.util.List;
+
 import javax.swing.JOptionPane;
 
+import com.projecttriumph.engine.gamediscover.GameCandidate;
+import com.projecttriumph.engine.gamediscover.GameContainer;
+import com.projecttriumph.engine.gamediscover.GameDiscoverer;
+import com.projecttriumph.engine.gamediscover.GameLoader;
+import com.projecttriumph.engine.gamediscover.GameLoaderDialog;
 import com.projecttriumph.engine.rendering.ScreenManager;
 import com.projecttriumph.engine.threads.ShutdownThread;
 
@@ -20,12 +28,14 @@ public class Main {
 			Runtime runtime = Runtime.getRuntime();
 			runtime.addShutdownHook(new ShutdownThread());
 			
-			// TODO this is where the selection of the game would take place
-//			List<Game> gamesInstalled;
+			GameDiscoverer disc = new GameDiscoverer();
+			disc.findGamesInDir(new File("F:\\__TestGameDir")); // TODO make a default location
+			List<GameCandidate> candidates = disc.identifyValid();
+			GameCandidate selection = GameLoaderDialog.show(candidates);
+			GameContainer game = GameLoader.loadGame(selection); // TODO use
 			
-			
-			ScreenManager manager = new ScreenManager();
-			GameEngine engine = new GameEngine(manager);
+			ScreenManager manager = new ScreenManager(game);
+			GameEngine engine = new GameEngine(manager, game);
 			
 			engine.startEngine();
 		} catch (Exception e) {
