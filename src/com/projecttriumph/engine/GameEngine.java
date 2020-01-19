@@ -2,16 +2,13 @@ package com.projecttriumph.engine;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-
+import com.projecttriumph.engine.api.io.user.IGameKeyInputHandler;
+import com.projecttriumph.engine.api.io.user.IGameMouseInputHandler;
 import com.projecttriumph.engine.api.math.MathHelper;
+import com.projecttriumph.engine.gamediscover.GameContainer;
 import com.projecttriumph.engine.io.user.EngineMouseInputHandler;
 import com.projecttriumph.engine.io.user.KeyInputHandler;
 import com.projecttriumph.engine.rendering.ScreenManager;
@@ -53,22 +50,15 @@ public final class GameEngine {
 	// Input Handlers
 	private KeyInputHandler keyHandler;
 	private EngineMouseInputHandler engineMouseHandler;
-//	private IGameMouseInputHandler gameMouseHandler;
+	private IGameMouseInputHandler gameMouseHandler;
+	private IGameKeyInputHandler gameKeyHandler;
 	
-	// TODO temp
-	BufferedImage img;
-	Polygon shape = new Polygon(new int[] {0, 299, 49, 49, 99, 99, -100, -100, -50, -50, -300, 0}, new int[] {-400, 399, 399, 449, 449, 399, 399, 449, 449, 399, 399, -400}, 12);
-
+	private GameContainer game;
 	
-	public GameEngine(ScreenManager screenManager) {
+	public GameEngine(ScreenManager screenManager, GameContainer game) {
 		this.screenManager = screenManager;
-		// TODO the following code is temporary
-		shape.translate(500, 550);
-		try {
-			this.img = ImageIO.read(new File("C:/Users/Joseph/Desktop/Gradient.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.game = game;
+		
 	}
 	
 	public void startEngine() {
@@ -85,13 +75,28 @@ public final class GameEngine {
 		this.engineMouseHandler = new EngineMouseInputHandler();
 		this.screenManager.addInputListeners(keyHandler, engineMouseHandler);
 		
+		try {
+			this.gameKeyHandler = this.game.getGame().keyInput().newInstance();
+			this.screenManager.addGameKeyListener(gameKeyHandler);
+		} catch (InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		try {
+			this.gameMouseHandler = this.game.getGame().mouseInput().newInstance();
+			this.screenManager.addGameMouseListener(gameMouseHandler);
+		} catch (InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		
+		this.game.getController().initialize();
+		
+		
 		System.gc();
 	}
 	
 	// TODO implement
 	private void captureInput() {
 		this.keyHandler.captureInput();
-//		this.gameMouseHandler.captureInput();
 		
 		// TODO Remove this debug code
 		if (this.keyHandler.isKeyDown(KeyEvent.VK_ESCAPE)) {
@@ -104,6 +109,7 @@ public final class GameEngine {
 		captureInput();
 		
 		// TODO: implement thread splitting
+		this.game.getController().updateGame();;
 		
 		// update
 		ticks++;
@@ -113,18 +119,14 @@ public final class GameEngine {
 	private void render(Graphics2D g) {
 		// Black out the screen to prevent old stuff from showing
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, screenManager.getScreenWidth(), screenManager.getScreenHeight());
+		g.fillRect(0, 0, ScreenManager.getScreenWidth(), ScreenManager.getScreenHeight());
 		
 		// Set the transform for zoom to draw the zoomed stuffs
 		AffineTransform saveState = g.getTransform();
 		g.transform(ScreenManager.getInstance().getCamera().getCurrentTransform());
 		
 		// RENDER UPDATEABLE
-		g.drawImage(img, 0, 0, null);
-		g.setColor(Color.BLUE);
-		g.fillRect(400, 400, 200, 200);
-		g.setColor(Color.green);
-		g.draw(shape);
+		this.game.getController().renderGame(g);
 		
 		// REDNER STATIC GUI
 		g.setTransform(saveState);
