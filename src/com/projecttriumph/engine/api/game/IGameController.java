@@ -12,7 +12,7 @@ import java.awt.Graphics2D;
  * @author Joseph
  *
  */
-public interface GameController {
+public interface IGameController {
 	/**
 	 * Initializes the game and its content. Any creation of objects that will be used 
 	 * throughout the game should be created here. Any controllers, storage objects, 

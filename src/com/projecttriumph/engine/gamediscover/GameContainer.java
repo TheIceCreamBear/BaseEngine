@@ -3,20 +3,20 @@ package com.projecttriumph.engine.gamediscover;
 import java.io.File;
 
 import com.projecttriumph.engine.api.game.Game;
-import com.projecttriumph.engine.api.game.GameController;
+import com.projecttriumph.engine.api.game.IGameController;
 
 public class GameContainer {
 	private File location;
 	private Game game;
-	private GameController controller;
+	private IGameController controller;
 	
-	public GameContainer(File location, Game game, GameController controller) {
+	public GameContainer(File location, Game game, IGameController controller) {
 		this.location = location;
 		this.game = game;
 		this.controller = controller;
 	}
 	
-	public GameController getController() {
+	public IGameController getController() {
 		return this.controller;
 	}
 	

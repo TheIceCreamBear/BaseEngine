@@ -11,7 +11,7 @@ import com.projecttriumph.engine.rendering.Camera;
 
 // TODO update docs
 /**
- * The @Game interface is used to tag a {@link com.projecttriumph.engine.api.game.GameController GameController}
+ * The @Game interface is used to tag a {@link com.projecttriumph.engine.api.game.IGameController GameController}
  * with game specific metadata and information that only needs to gathered at initialization.
  * @author Joseph
  */

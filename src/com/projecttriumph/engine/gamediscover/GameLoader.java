@@ -8,7 +8,7 @@ import java.util.Set;
 import org.objectweb.asm.Type;
 
 import com.projecttriumph.engine.api.game.Game;
-import com.projecttriumph.engine.api.game.GameController;
+import com.projecttriumph.engine.api.game.IGameController;
 
 public class GameLoader {	
 	public static GameContainer loadGame(GameCandidate candidate) {
@@ -28,8 +28,8 @@ public class GameLoader {
 			
 			Class<?> gameClass = Class.forName(candidate.getGameClassName(), false, cl);
 			Game game = gameClass.getAnnotation(Game.class);
-			Class<? extends GameController> controllerClass = gameClass.asSubclass(GameController.class);
-			GameController controller = controllerClass.newInstance();
+			Class<? extends IGameController> controllerClass = gameClass.asSubclass(IGameController.class);
+			IGameController controller = controllerClass.newInstance();
 			return new GameContainer(candidate.getLocation(), game, controller);
 		} catch (ClassNotFoundException | ClassCastException | InstantiationException | IllegalAccessException | IOException e) {
 			e.printStackTrace();
