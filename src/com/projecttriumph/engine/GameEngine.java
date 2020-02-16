@@ -166,7 +166,7 @@ public final class GameEngine {
 				case YES_120:
 					if (this.framesTillUpdate == 0) {
 						this.update();
-						this.framesTillUpdate = 2;
+						this.framesTillUpdate = 1;
 					} else {
 						this.framesTillUpdate--;
 					}
@@ -201,13 +201,13 @@ public final class GameEngine {
 					double averageElapsed = totalElapsed / numberTimesRun;
 					System.err.println(averageElapsed);
 					System.out.println(_60hz);
-					if (MathHelper.equal(averageElapsed, _30hz, 0.1)) {
+					if (MathHelper.equal(averageElapsed, _30hz, 0.01)) {
 						this.frameRateType = EnumLockedFrameRate.YES_30;
-					} else if (MathHelper.equal(averageElapsed, _60hz, 0.1)) {
+					} else if (MathHelper.equal(averageElapsed, _60hz, 0.01)) {
 						this.frameRateType = EnumLockedFrameRate.YES_60;
-					} else if (MathHelper.equal(averageElapsed, _120hz, 0.1)) {
+					} else if (MathHelper.equal(averageElapsed, _120hz, 0.01)) {
 						this.frameRateType = EnumLockedFrameRate.YES_120;
-					} else if (MathHelper.equal(averageElapsed, _240hz, 0.1)) {
+					} else if (MathHelper.equal(averageElapsed, _240hz, 0.01)) {
 						this.frameRateType = EnumLockedFrameRate.YES_240;
 					} else {
 						this.frameRateType = EnumLockedFrameRate.NO;
