@@ -141,7 +141,7 @@ public final class GameEngine {
 		final double _60hz = 1000.0 / 60;
 		final double _120hz = 1000.0 / 120;
 		final double _240hz = 1000.0 / 240;
-		final double TIMER_PER_FRAME = _60hz;
+		final double TIME_PER_FRAME = _60hz;
 		
 		long timer = System.currentTimeMillis();
 		long start = System.currentTimeMillis();
@@ -220,10 +220,10 @@ public final class GameEngine {
 			if (this.frameRateType == EnumLockedFrameRate.NO) {
 				long sleepTime;
 				if (this.updatesTillNonRound == 0) {
-					sleepTime = (long) (TIMER_PER_FRAME - elapsed);
+					sleepTime = (long) (TIME_PER_FRAME - elapsed);
 					this.updatesTillNonRound = 2;
 				} else {
-					sleepTime = Math.round(TIMER_PER_FRAME - elapsed);
+					sleepTime = Math.round(TIME_PER_FRAME - elapsed);
 					this.updatesTillNonRound--;
 				}
 
