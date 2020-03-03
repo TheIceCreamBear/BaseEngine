@@ -28,11 +28,30 @@ public class Main {
 			Runtime runtime = Runtime.getRuntime();
 			runtime.addShutdownHook(new ShutdownThread());
 			
-			GameDiscoverer disc = new GameDiscoverer();
-			disc.findGamesInDir(new File("F:\\__TestGameDir")); // TODO make a default location
-			List<GameCandidate> candidates = disc.identifyValid();
-			GameCandidate selection = GameLoaderDialog.show(candidates);
-			GameContainer game = GameLoader.loadGame(selection); // TODO use
+			GameContainer game = null;
+			
+			// TODO create a better command line args parser
+			if (args.length > 0) {
+				if (args[0].startsWith("--cp=")) {
+					// Load via directory, used for development.
+					GameDiscoverer disc = new GameDiscoverer();
+					disc.addDirectoryCandidate(args[0].substring(5));
+					List<GameCandidate> candidates = disc.identifyValid();
+					if (candidates != null && candidates.size() == 1) {
+						game = GameLoader.loadGame(candidates.get(0));
+					}
+				} else if (args[0].startsWith("--jf=")) {
+					// Load via jar file, used for all in one distros (engine packaged with the game)
+					
+				}
+			} else {				
+				GameDiscoverer disc = new GameDiscoverer();
+				disc.findJarGamesInDir(new File("F:\\__TestGameDir")); // TODO make a default location
+				List<GameCandidate> candidates = disc.identifyValid();
+				GameCandidate selection = GameLoaderDialog.show(candidates);
+				game = GameLoader.loadGame(selection); // TODO use
+			}
+			
 			
 			ScreenManager manager = new ScreenManager(game);
 			GameEngine engine = new GameEngine(manager, game);
