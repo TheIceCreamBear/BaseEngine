@@ -19,13 +19,13 @@ import org.objectweb.asm.Type;
 import com.projecttriumph.engine.gamediscover.asm.GameClassVisitor;
 
 public class GameCandidate {
-	private static Pattern classFile = Pattern.compile("[^\\s\\$]+(\\$[^\\s]+)?\\.class$");
-	private File location;
-	private String gameClass = null;
-	private String name = null;
-	private String version = null;
-	private Set<String> classes = new HashSet<String>();
-	private List<String> pkgs = new ArrayList<String>();
+	protected static Pattern classFile = Pattern.compile("[^\\s\\$]+(\\$[^\\s]+)?\\.class$");
+	protected File location;
+	protected String gameClass = null;
+	protected String name = null;
+	protected String version = null;
+	protected Set<String> classes = new HashSet<String>();
+	protected List<String> pkgs = new ArrayList<String>();
 	
 	public GameCandidate(File location) {
 		this.location = location;
