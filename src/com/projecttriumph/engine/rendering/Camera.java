@@ -9,14 +9,14 @@ import com.projecttriumph.engine.api.math.shape.Rectangle;
 
 public class Camera {
 	private static final int SCEEN_OFF_SET_PER_KEY = 5;
-	private final int screenWidth;
-	private final int screenHeight;
-	private final int screenCenterX;
-	private final int screenCenterY;
-	private double scale = 1.0;
-	private int zoomScale = 1;
-	private int offsetX = 0;
-	private int offsetY = 0;
+	protected final int screenWidth;
+	protected final int screenHeight;
+	protected final int screenCenterX;
+	protected final int screenCenterY;
+	protected double scale = 1.0;
+	protected int zoomScale = 1;
+	protected int offsetX = 0;
+	protected int offsetY = 0;
 	
 	// test constructor, remove
 	public Camera() {
