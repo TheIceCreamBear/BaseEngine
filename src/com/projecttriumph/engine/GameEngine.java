@@ -135,8 +135,8 @@ public final class GameEngine {
 	private void run() {
 		this.engineState = EnumEngineState.RUNNING;
 		double totalElapsed = 0;
-		int updatesTillInit = 81;
-		final double numberTimesRun = updatesTillInit - 21;
+		final int numberTimesRun = 120;
+		int updatesTillInit = numberTimesRun + 21;
 		final double _30hz = 1000.0 / 30;
 		final double _60hz = 1000.0 / 60;
 		final double _120hz = 1000.0 / 120;
