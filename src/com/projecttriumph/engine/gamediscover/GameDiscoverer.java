@@ -17,7 +17,7 @@ public class GameDiscoverer {
 		this.candidates = new ArrayList<GameCandidate>();
 	}
 	
-	public void findGamesInDir(File gameDir) {
+	public void findJarGamesInDir(File gameDir) {
 		File[] gameFiles = gameDir.listFiles();
 		Arrays.sort(gameFiles, new Comparator<File>() {
 			public int compare(File o1, File o2) {
@@ -40,7 +40,16 @@ public class GameDiscoverer {
 			candidate.explore(games);
 		}
 		
+		if (games.size() == 0) {
+			return null;
+		}
+		
 		return games;
+	}
+	
+	public void addDirectoryCandidate(String file) {
+		File location = new File(file);
+		addCandidate(new GameDirectoryCandidate(location));
 	}
 	
 	public void addCandidate(GameCandidate candidate) {
