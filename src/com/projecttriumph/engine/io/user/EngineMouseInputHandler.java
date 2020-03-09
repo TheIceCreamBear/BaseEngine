@@ -21,37 +21,37 @@ public class EngineMouseInputHandler implements MouseInputListener, MouseWheelLi
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("\n\nEngineMouseInputHandler.mouseClicked()");
+		System.out.println("EngineMouseInputHandler.mouseClicked()");
 	}
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
-		System.out.println("\n\nEngineMouseInputHandler.mousePressed()");
+		System.out.println("EngineMouseInputHandler.mousePressed()");
 	}
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		System.out.println("\n\nEngineMouseInputHandler.mouseReleased()");
+		System.out.println("EngineMouseInputHandler.mouseReleased()");
 	}
 	
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		System.out.println("\n\nEngineMouseInputHandler.mouseEntered()");
+		System.out.println("EngineMouseInputHandler.mouseEntered()");
 	}
 	
 	@Override
 	public void mouseExited(MouseEvent e) {
-		System.out.println("\n\nEngineMouseInputHandler.mouseExited()");
+		System.out.println("EngineMouseInputHandler.mouseExited()");
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		System.out.println("\n\nEngineMouseInputHandler.mouseDragged()");
+		System.out.println("EngineMouseInputHandler.mouseDragged()");
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		System.out.println("\n\nEngineMouseInputHandler.mouseMoved()");
+		System.out.println("EngineMouseInputHandler.mouseMoved()");
 	}
 
 	@Override
