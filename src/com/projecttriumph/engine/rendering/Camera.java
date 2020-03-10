@@ -60,19 +60,19 @@ public class Camera {
 	}
 	
 	public void frameMoveCamera() {
-		if (KeyInputHandler.getInstance().isKeyDown(KeyEvent.VK_LEFT)) {
+		if (KeyInputHandler.isKeyDown(KeyEvent.VK_LEFT)) {
 			this.offsetX += SCEEN_OFF_SET_PER_KEY;
 		}
 		
-		if (KeyInputHandler.getInstance().isKeyDown(KeyEvent.VK_RIGHT)) {
+		if (KeyInputHandler.isKeyDown(KeyEvent.VK_RIGHT)) {
 			this.offsetX -= SCEEN_OFF_SET_PER_KEY;
 		}
 		
-		if (KeyInputHandler.getInstance().isKeyDown(KeyEvent.VK_DOWN)) {
+		if (KeyInputHandler.isKeyDown(KeyEvent.VK_DOWN)) {
 			this.offsetY -= SCEEN_OFF_SET_PER_KEY;
 		}
 		
-		if (KeyInputHandler.getInstance().isKeyDown(KeyEvent.VK_UP)) {
+		if (KeyInputHandler.isKeyDown(KeyEvent.VK_UP)) {
 			this.offsetY += SCEEN_OFF_SET_PER_KEY;
 		}
 	}
