@@ -1,11 +1,13 @@
 package com.projecttriumph.engine.rendering;
 
+import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.Window;
+import java.awt.font.FontRenderContext;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
@@ -21,6 +23,7 @@ public class ScreenManager {
 	private GraphicsDevice device;
 	private final JFrame frame;
 	private final Camera camera;
+	private final FontRenderContext frc;
 	
 	private static ScreenManager instance;
 	
@@ -36,6 +39,8 @@ public class ScreenManager {
 		
 		this.device.setFullScreenWindow(frame);
 		this.device.setDisplayMode(device.getDisplayMode());
+		
+		this.frc = ((Graphics2D) this.frame.getGraphics()).getFontRenderContext();
 		
 		if (game.getGame().camera() == Camera.class) {
 			this.camera = new Camera(device.getDisplayMode().getWidth(), device.getDisplayMode().getHeight());
@@ -96,6 +101,10 @@ public class ScreenManager {
 		this.frame.addMouseWheelListener(emih);
 	}
 	
+	public static FontRenderContext getFrc() {
+		return getInstance().frc;
+	}
+	
 	public static int getScreenWidth() {
 		return getInstance().device.getDisplayMode().getWidth();
 	}
@@ -106,6 +115,10 @@ public class ScreenManager {
 	
 	public static int getRefreshRate() {
 		return getInstance().device.getDisplayMode().getRefreshRate();
+	}
+	
+	public void setCursor(Cursor c) {
+		this.frame.setCursor(c);
 	}
 	
 	public Point getMousePoint() {
