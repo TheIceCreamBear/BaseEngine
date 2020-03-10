@@ -6,6 +6,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 import com.projecttriumph.engine.api.math.shape.Rectangle;
+import com.projecttriumph.engine.io.user.KeyInputHandler;
 
 public class Camera {
 	private static final int SCEEN_OFF_SET_PER_KEY = 5;
@@ -58,22 +59,40 @@ public class Camera {
 		}
 	}
 	
+	public void frameMoveCamera() {
+		if (KeyInputHandler.getInstance().isKeyDown(KeyEvent.VK_LEFT)) {
+			this.offsetX += SCEEN_OFF_SET_PER_KEY;
+		}
+		
+		if (KeyInputHandler.getInstance().isKeyDown(KeyEvent.VK_RIGHT)) {
+			this.offsetX -= SCEEN_OFF_SET_PER_KEY;
+		}
+		
+		if (KeyInputHandler.getInstance().isKeyDown(KeyEvent.VK_DOWN)) {
+			this.offsetY -= SCEEN_OFF_SET_PER_KEY;
+		}
+		
+		if (KeyInputHandler.getInstance().isKeyDown(KeyEvent.VK_UP)) {
+			this.offsetY += SCEEN_OFF_SET_PER_KEY;
+		}
+	}
+	
 	public void onArrowKeyEvent(KeyEvent e) {
 		// TODO allow for dynamic key binding
-		switch(e.getKeyCode()) {
-			case KeyEvent.VK_LEFT:
-				this.offsetX -= SCEEN_OFF_SET_PER_KEY;
-				break;
-			case KeyEvent.VK_RIGHT:
-				this.offsetX += SCEEN_OFF_SET_PER_KEY;
-				break;
-			case KeyEvent.VK_DOWN:
-				this.offsetY += SCEEN_OFF_SET_PER_KEY;
-				break;
-			case KeyEvent.VK_UP:
-				this.offsetY -= SCEEN_OFF_SET_PER_KEY;
-				break;
-		}
+//		switch(e.getKeyCode()) {
+//			case KeyEvent.VK_LEFT:
+//				this.offsetX -= SCEEN_OFF_SET_PER_KEY;
+//				break;
+//			case KeyEvent.VK_RIGHT:
+//				this.offsetX += SCEEN_OFF_SET_PER_KEY;
+//				break;
+//			case KeyEvent.VK_DOWN:
+//				this.offsetY += SCEEN_OFF_SET_PER_KEY;
+//				break;
+//			case KeyEvent.VK_UP:
+//				this.offsetY -= SCEEN_OFF_SET_PER_KEY;
+//				break;
+//		}
 	}
 	
 	public AffineTransform getCurrentTransform() {
@@ -85,6 +104,11 @@ public class Camera {
 		// Translates to the off set position
 		at.translate(offsetX, offsetY);
 		return at;
+	}
+	
+	public void resetOffset() {
+		this.offsetX = 0;
+		this.offsetY = 0;
 	}
 	
 	public boolean isRectVisible(Rectangle rect) {
