@@ -97,9 +97,10 @@ public final class GameEngine {
 	// TODO implement
 	private void captureInput() {
 		this.keyHandler.captureInput();
+		this.engineMouseHandler.captureInput();
 		
 		// TODO Remove this debug code
-		if (this.keyHandler.isKeyDown(KeyEvent.VK_ESCAPE)) {
+		if (KeyInputHandler.isKeyDown(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
 		}
 	}
@@ -107,9 +108,10 @@ public final class GameEngine {
 	// TODO implement
 	private void update() {
 		captureInput();
+		screenManager.getCamera().frameMoveCamera();
 		
 		// TODO: implement thread splitting
-		this.game.getController().updateGame();;
+		this.game.getController().updateGame();
 		
 		// update
 		ticks++;
@@ -123,7 +125,8 @@ public final class GameEngine {
 		
 		// Set the transform for zoom to draw the zoomed stuffs
 		AffineTransform saveState = g.getTransform();
-		g.transform(ScreenManager.getInstance().getCamera().getCurrentTransform());
+		AffineTransform cameraTransform = ScreenManager.getInstance().getCamera().getCurrentTransform();
+		g.transform(cameraTransform);
 		
 		// RENDER UPDATEABLE
 		this.game.getController().renderGame(g);
@@ -201,13 +204,13 @@ public final class GameEngine {
 					double averageElapsed = totalElapsed / numberTimesRun;
 					System.err.println(averageElapsed);
 					System.out.println(_60hz);
-					if (MathHelper.equal(averageElapsed, _30hz, 0.01)) {
+					if (MathHelper.equal(averageElapsed, _30hz, 0.05)) {
 						this.frameRateType = EnumLockedFrameRate.YES_30;
-					} else if (MathHelper.equal(averageElapsed, _60hz, 0.01)) {
+					} else if (MathHelper.equal(averageElapsed, _60hz, 0.05)) {
 						this.frameRateType = EnumLockedFrameRate.YES_60;
-					} else if (MathHelper.equal(averageElapsed, _120hz, 0.01)) {
+					} else if (MathHelper.equal(averageElapsed, _120hz, 0.05)) {
 						this.frameRateType = EnumLockedFrameRate.YES_120;
-					} else if (MathHelper.equal(averageElapsed, _240hz, 0.01)) {
+					} else if (MathHelper.equal(averageElapsed, _240hz, 0.05)) {
 						this.frameRateType = EnumLockedFrameRate.YES_240;
 					} else {
 						this.frameRateType = EnumLockedFrameRate.NO;
