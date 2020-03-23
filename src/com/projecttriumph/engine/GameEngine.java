@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
 
 import com.projecttriumph.engine.api.io.user.IGameKeyInputHandler;
 import com.projecttriumph.engine.api.io.user.IGameMouseInputHandler;
@@ -11,9 +12,12 @@ import com.projecttriumph.engine.api.math.MathHelper;
 import com.projecttriumph.engine.gamediscover.GameContainer;
 import com.projecttriumph.engine.io.user.EngineMouseInputHandler;
 import com.projecttriumph.engine.io.user.KeyInputHandler;
+import com.projecttriumph.engine.rendering.FrameStats;
 import com.projecttriumph.engine.rendering.ScreenManager;
 
 public final class GameEngine {
+	public static final boolean USE_FRAME_STATS = true;
+	
 	public enum EnumEngineState {
 		INVALID, INITIALIZING, RUNNING, STOPPING;
 	}
@@ -39,6 +43,12 @@ public final class GameEngine {
 	// Rendering vars
 	private ScreenManager screenManager;
 	private int ticks = 0;
+	
+	// Frame Stats vars
+	private long tickCount = 0;
+	private FrameStats currentFrame;
+	private ArrayList<FrameStats> statsList = new ArrayList<FrameStats>();
+	
 	/**
 	 * Used to determine how many frames must be rendered before the next update.
 	 * Only used for {@link EnumLockedFrameRate#YES_120} & 
@@ -64,6 +74,8 @@ public final class GameEngine {
 	public void startEngine() {
 		this.initialize();
 		this.run();
+		// system exit here calls shutdown threads and closes the awt threads
+		System.exit(0);
 	}
 	
 	private void initialize() {
@@ -101,12 +113,15 @@ public final class GameEngine {
 		
 		// TODO Remove this debug code
 		if (KeyInputHandler.isKeyDown(KeyEvent.VK_ESCAPE)) {
-			System.exit(0);
+			this.engineState = EnumEngineState.STOPPING;
 		}
 	}
 
 	// TODO implement
 	private void update() {
+		if (USE_FRAME_STATS) {
+			this.currentFrame.updateStart += System.nanoTime();
+		}
 		captureInput();
 		screenManager.getCamera().frameMoveCamera();
 		
@@ -115,10 +130,16 @@ public final class GameEngine {
 		
 		// update
 		ticks++;
+		if (USE_FRAME_STATS) {
+			this.currentFrame.updateEnd += System.nanoTime();
+		}
 	}
 	
 	// TODO implement
 	private void render(Graphics2D g) {
+		if (USE_FRAME_STATS) {
+			this.currentFrame.drawStart = System.nanoTime();
+		}
 		// Black out the screen to prevent old stuff from showing
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, ScreenManager.getScreenWidth(), ScreenManager.getScreenHeight());
@@ -133,6 +154,9 @@ public final class GameEngine {
 		
 		// REDNER STATIC GUI
 		g.setTransform(saveState);
+		if (USE_FRAME_STATS) {
+			this.currentFrame.drawEnd = System.nanoTime();
+		}
 	}
 	
 	private void run() {
@@ -151,6 +175,12 @@ public final class GameEngine {
 		
 		while (this.engineState == EnumEngineState.RUNNING) {
 			start = System.currentTimeMillis();
+			if (USE_FRAME_STATS) {
+				this.currentFrame = new FrameStats();
+				this.currentFrame.tickCounter = tickCount;
+				this.currentFrame.fullLoopStart += System.nanoTime();
+				this.tickCount++;
+			}
 			// system to make sure there is always 60 UPS
 			switch (this.frameRateType) {
 				case YES_30:
@@ -247,6 +277,32 @@ public final class GameEngine {
 				ticks = 0;
 				timer = System.currentTimeMillis();
 			}
+			
+			if (USE_FRAME_STATS) {
+				this.currentFrame.fullLoopEnd += System.nanoTime();
+				System.err.println(this.currentFrame);
+				this.statsList.add(currentFrame);
+			}
+		}
+		
+		if (USE_FRAME_STATS) {
+			double totalUpdate = 0;
+			double totalDraw = 0;
+			double totalLoop = 0;
+			
+			for (int i = 0; i < statsList.size(); i++) {
+				FrameStats s = statsList.get(i);
+				totalUpdate += s.updateEnd - s.updateStart;
+				totalDraw += s.drawEnd - s.drawStart;
+				totalLoop += s.fullLoopEnd - s.fullLoopStart;
+			}
+			
+			System.out.println("\n\n");
+			System.out.println("60hz = " + _60hz + "ms");
+			System.out.println("Number of ticks: " + statsList.size());
+			System.out.printf("Update: |%15.0f / %1d = %15.3fns = %15.3fms\n", totalUpdate, statsList.size(), (totalUpdate / statsList.size()), (totalUpdate / statsList.size()) / 1000000);
+			System.out.printf("Draw:   |%15.0f / %1d = %15.3fns = %15.3fms\n", totalDraw,   statsList.size(), (totalDraw   / statsList.size()), (totalDraw   / statsList.size()) / 1000000);
+			System.out.printf("Loop:   |%15.0f / %1d = %15.3fns = %15.3fms\n", totalLoop,   statsList.size(), (totalLoop   / statsList.size()), (totalLoop   / statsList.size()) / 1000000);
 		}
 		
 		this.engineState = EnumEngineState.STOPPING;
