@@ -77,12 +77,14 @@ public class ScreenManager {
 	
 	public void addGameMouseListener(IGameMouseInputHandler gmih) {
 		this.frame.addMouseListener(gmih);
+		this.frame.addMouseMotionListener(gmih);
 		this.frame.addMouseWheelListener(gmih);
 	}
 	
 	public void removeGameMouseListener(IGameMouseInputHandler gmih) {
 		// TODO safety check
 		this.frame.removeMouseListener(gmih);
+		this.frame.removeMouseMotionListener(gmih);
 		this.frame.removeMouseWheelListener(gmih);
 	}
 	
@@ -98,6 +100,7 @@ public class ScreenManager {
 	public void addInputListeners(KeyInputHandler kih, EngineMouseInputHandler emih) {
 		this.frame.addKeyListener(kih);
 		this.frame.addMouseListener(emih);
+		this.frame.addMouseMotionListener(emih);
 		this.frame.addMouseWheelListener(emih);
 	}
 	
