@@ -49,7 +49,7 @@ public class Main {
 				disc.findJarGamesInDir(new File("F:\\__TestGameDir")); // TODO make a default location
 				List<GameCandidate> candidates = disc.identifyValid();
 				GameCandidate selection = GameLoaderDialog.show(candidates);
-				game = GameLoader.loadGame(selection); // TODO use
+				game = GameLoader.loadGame(selection);
 			}
 			
 			

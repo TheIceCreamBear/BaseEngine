@@ -104,22 +104,6 @@ public class ScreenManager {
 		this.frame.addMouseWheelListener(emih);
 	}
 	
-	public static FontRenderContext getFrc() {
-		return getInstance().frc;
-	}
-	
-	public static int getScreenWidth() {
-		return getInstance().device.getDisplayMode().getWidth();
-	}
-	
-	public static int getScreenHeight() {
-		return getInstance().device.getDisplayMode().getHeight();
-	}
-	
-	public static int getRefreshRate() {
-		return getInstance().device.getDisplayMode().getRefreshRate();
-	}
-	
 	public void setCursor(Cursor c) {
 		this.frame.setCursor(c);
 	}
@@ -134,6 +118,22 @@ public class ScreenManager {
 	
 	public Camera getCamera() {
 		return this.camera;
+	}
+	
+	public static FontRenderContext getFrc() {
+		return getInstance().frc;
+	}
+	
+	public static int getScreenWidth() {
+		return getInstance().device.getDisplayMode().getWidth();
+	}
+	
+	public static int getScreenHeight() {
+		return getInstance().device.getDisplayMode().getHeight();
+	}
+	
+	public static int getRefreshRate() {
+		return getInstance().device.getDisplayMode().getRefreshRate();
 	}
 	
 	public static ScreenManager getInstance() {
