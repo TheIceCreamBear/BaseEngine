@@ -18,6 +18,8 @@ import com.projecttriumph.engine.threads.ShutdownThread;
  * @author Joseph
  */
 public class Main {
+	private static String gname = "NO_GAME";
+	
 	public static void main(String[] args) {
 		try {
 			if (System.getProperty("sun.arch.data.model").contains("32")) {
@@ -52,6 +54,9 @@ public class Main {
 				game = GameLoader.loadGame(selection);
 			}
 			
+			if (game != null) {
+				gname = game.getGame().gameName();
+			}
 			
 			ScreenManager manager = new ScreenManager(game);
 			GameEngine engine = new GameEngine(manager, game);
@@ -62,5 +67,9 @@ public class Main {
 			// TODO create crash report system
 			System.exit(-1);
 		}
+	}
+	
+	public static String getGname() {
+		return gname;
 	}
 }

@@ -1,11 +1,21 @@
 package com.projecttriumph.engine;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.ThreadContext;
+
+import com.projecttriumph.engine.api.game.IGameController;
 import com.projecttriumph.engine.api.io.user.IGameKeyInputHandler;
 import com.projecttriumph.engine.api.io.user.IGameMouseInputHandler;
 import com.projecttriumph.engine.api.math.MathHelper;
@@ -14,9 +24,33 @@ import com.projecttriumph.engine.io.user.EngineMouseInputHandler;
 import com.projecttriumph.engine.io.user.KeyInputHandler;
 import com.projecttriumph.engine.rendering.FrameStats;
 import com.projecttriumph.engine.rendering.ScreenManager;
+import com.projecttriumph.engine.util.LoggingPrintStream;
 
 public final class GameEngine {
 	public static final boolean USE_FRAME_STATS = true;
+	
+	/**
+	 * DO NOT USE THIS LOGGER! This is for internal engine use ONLY!!
+	 * If you want a logger, with your game's name attached, in your 
+	 * class that implements {@link IGameController}, use the following:
+	 * <p><code>
+	 * public static final Logger LOGGER = LogManager.getLogger();
+	 * </code>
+	 * 
+	 */
+	public static final Logger ENGINE_LOGGER;
+	
+	static {
+		// Init logger
+		ENGINE_LOGGER = LogManager.getLogger("Engine");
+		
+		// Set gname in thread context for logger file names
+		ThreadContext.put("gname", Main.getGname());
+		
+		// Overwrite sysout and syserr
+		System.setOut(new LoggingPrintStream(LogManager.getLogger("STDOUT"), System.out));
+		System.setErr(new LoggingPrintStream(LogManager.getLogger("STDERR"), System.err));
+	}
 	
 	public enum EnumEngineState {
 		INVALID, INITIALIZING, RUNNING, STOPPING;
@@ -300,9 +334,10 @@ public final class GameEngine {
 			System.out.println("\n\n");
 			System.out.println("60hz = " + _60hz + "ms");
 			System.out.println("Number of ticks: " + statsList.size());
-			System.out.printf("Update: |%15.0f / %1d = %15.3fns = %15.3fms\n", totalUpdate, statsList.size(), (totalUpdate / statsList.size()), (totalUpdate / statsList.size()) / 1000000);
-			System.out.printf("Draw:   |%15.0f / %1d = %15.3fns = %15.3fms\n", totalDraw,   statsList.size(), (totalDraw   / statsList.size()), (totalDraw   / statsList.size()) / 1000000);
-			System.out.printf("Loop:   |%15.0f / %1d = %15.3fns = %15.3fms\n", totalLoop,   statsList.size(), (totalLoop   / statsList.size()), (totalLoop   / statsList.size()) / 1000000);
+			System.out.printf("Update: |%15.0f / %1d = %15.3fns = %8.3fms\n", totalUpdate, statsList.size(), (totalUpdate / statsList.size()), (totalUpdate / statsList.size()) / 1000000);
+			System.out.printf("Draw:   |%15.0f / %1d = %15.3fns = %8.3fms\n", totalDraw,   statsList.size(), (totalDraw   / statsList.size()), (totalDraw   / statsList.size()) / 1000000);
+			System.out.printf("Loop:   |%15.0f / %1d = %15.3fns = %8.3fms\n", totalLoop,   statsList.size(), (totalLoop   / statsList.size()), (totalLoop   / statsList.size()) / 1000000);
+			ENGINE_LOGGER.info("HELLO");
 		}
 		
 		this.engineState = EnumEngineState.STOPPING;
