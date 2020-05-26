@@ -55,7 +55,7 @@ public class Main {
 			}
 			
 			if (game != null) {
-				gname = game.getGame().gameName();
+				gname = game.getGame().gameID();
 			}
 			
 			ScreenManager manager = new ScreenManager(game);
