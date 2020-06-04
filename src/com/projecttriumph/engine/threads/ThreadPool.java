@@ -9,16 +9,16 @@ import java.util.concurrent.ArrayBlockingQueue;
  *
  */
 public class ThreadPool extends ThreadGroup {
-	private static int poolCount;
+	private static int poolID;
 			
 	private boolean alive;
 	private Queue<Runnable> tasks;
 	private WorkerThread[] threads;
 	
 	public ThreadPool(int numberThreads) {
-		super("Thread Pool " + (poolCount++));
+		super("Thread Pool " + (poolID++));
 		this.alive = true;
-		this.tasks = new ArrayBlockingQueue<Runnable>(35, true);
+		this.tasks = new ArrayBlockingQueue<Runnable>(40 + (numberThreads * 2), true);
 		
 		this.threads = new WorkerThread[numberThreads];
 		for (int i = 0; i < threads.length; i++) {
