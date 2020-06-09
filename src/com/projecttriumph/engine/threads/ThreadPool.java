@@ -1,7 +1,6 @@
 package com.projecttriumph.engine.threads;
 
-import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
+import java.util.LinkedList;
 
 /**
  * A thread pool used to run {@link Runnable} in their own independent thread.
@@ -12,13 +11,13 @@ public class ThreadPool extends ThreadGroup {
 	private static int poolID;
 			
 	private boolean alive;
-	private Queue<Runnable> tasks;
+	private LinkedList<Runnable> tasks;
 	private WorkerThread[] threads;
 	
 	public ThreadPool(int numberThreads) {
 		super("Thread Pool " + (poolID++));
 		this.alive = true;
-		this.tasks = new ArrayBlockingQueue<Runnable>(40 + (numberThreads * 2), true);
+		this.tasks = new LinkedList<Runnable>();
 		
 		this.threads = new WorkerThread[numberThreads];
 		for (int i = 0; i < threads.length; i++) {
@@ -58,6 +57,18 @@ public class ThreadPool extends ThreadGroup {
 		
 		return tasks.remove();
 	}
+	
+	/**
+	 * Closes this thread pool. All waiting tasks are canceled. All threads 
+	 * are stopped. Once closed, no more tasks can be run.
+	 */
+	public synchronized void close() {
+        if (alive) {
+            alive = false;
+            tasks.clear();
+            interrupt();
+        }
+    }
 	
 	/**
 	 * Joins all threads into the caller thread. Essentially shuts down the 
