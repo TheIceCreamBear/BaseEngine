@@ -34,8 +34,9 @@ public final class GameEngine {
 	 * If you want a logger, with your game's name attached, in your 
 	 * class that implements {@link IGameController}, use the following:
 	 * <p><code>
-	 * public static final Logger LOGGER = LogManager.getLogger();
+	 * public static final Logger LOGGER = LogManager.getLogger(modName);
 	 * </code>
+	 * where modName is the name of your mod.
 	 * 
 	 */
 	public static final Logger ENGINE_LOGGER;
@@ -188,6 +189,31 @@ public final class GameEngine {
 		
 		// REDNER STATIC GUI
 		g.setTransform(saveState);
+		Point mouse = this.engineMouseHandler.getFrameMousePoint();
+		if (mouse != null) {
+			Font f = new Font("Consolas", 0, 40);
+			Point2D scaledPos;
+			try {
+				scaledPos = cameraTransform.inverseTransform(mouse, null);
+			} catch (NoninvertibleTransformException e) {
+				scaledPos = mouse;
+				e.printStackTrace();
+			}
+			String s1 = mouse.toString();
+			String s2 = scaledPos.toString();
+			Rectangle2D r = f.getMaxCharBounds(g.getFontRenderContext());
+			int yOff = (int) r.getHeight();
+			Color c = new Color(100, 100, 100, 191);
+			g.setColor(c);
+			g.fillRect(mouse.x, mouse.y, (int) (r.getWidth() * (s1.length() > s2.length() ? s1.length() : s2.length())), yOff + yOff + yOff);
+			g.setColor(Color.WHITE);
+			g.setFont(f);
+			g.drawString(s1, mouse.x, mouse.y + yOff);
+			g.drawString(s2, mouse.x, mouse.y + yOff + yOff);
+		}
+		// draw mouse cords
+		
+		
 		if (USE_FRAME_STATS) {
 			this.currentFrame.drawEnd = System.nanoTime();
 		}
@@ -314,7 +340,7 @@ public final class GameEngine {
 			
 			if (USE_FRAME_STATS) {
 				this.currentFrame.fullLoopEnd += System.nanoTime();
-				System.err.println(this.currentFrame);
+				ENGINE_LOGGER.trace(this.currentFrame);
 				this.statsList.add(currentFrame);
 			}
 		}
@@ -331,13 +357,12 @@ public final class GameEngine {
 				totalLoop += s.fullLoopEnd - s.fullLoopStart;
 			}
 			
-			System.out.println("\n\n");
-			System.out.println("60hz = " + _60hz + "ms");
-			System.out.println("Number of ticks: " + statsList.size());
+			System.out.printf("\n\n60hz = " + _60hz + "ms\n");
+			System.out.printf("Number of ticks: " + statsList.size() + "\n");
 			System.out.printf("Update: |%15.0f / %1d = %15.3fns = %8.3fms\n", totalUpdate, statsList.size(), (totalUpdate / statsList.size()), (totalUpdate / statsList.size()) / 1000000);
 			System.out.printf("Draw:   |%15.0f / %1d = %15.3fns = %8.3fms\n", totalDraw,   statsList.size(), (totalDraw   / statsList.size()), (totalDraw   / statsList.size()) / 1000000);
 			System.out.printf("Loop:   |%15.0f / %1d = %15.3fns = %8.3fms\n", totalLoop,   statsList.size(), (totalLoop   / statsList.size()), (totalLoop   / statsList.size()) / 1000000);
-			ENGINE_LOGGER.info("HELLO");
+			ENGINE_LOGGER.info("Shutting down");
 		}
 		
 		this.engineState = EnumEngineState.STOPPING;
