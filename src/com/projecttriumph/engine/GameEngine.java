@@ -11,6 +11,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import javax.sound.sampled.AudioFormat;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.ThreadContext;
@@ -24,10 +26,13 @@ import com.projecttriumph.engine.io.user.EngineMouseInputHandler;
 import com.projecttriumph.engine.io.user.KeyInputHandler;
 import com.projecttriumph.engine.rendering.FrameStats;
 import com.projecttriumph.engine.rendering.ScreenManager;
+import com.projecttriumph.engine.sound.SoundManager;
 import com.projecttriumph.engine.util.LoggingPrintStream;
 
 public final class GameEngine {
 	public static final boolean USE_FRAME_STATS = true;
+	
+	private static final AudioFormat PLAYBACK_FORMAT = new AudioFormat(44100, 16, 1, true, false);
 	
 	/**
 	 * DO NOT USE THIS LOGGER! This is for internal engine use ONLY!!
@@ -98,6 +103,8 @@ public final class GameEngine {
 	private IGameMouseInputHandler gameMouseHandler;
 	private IGameKeyInputHandler gameKeyHandler;
 	
+	private SoundManager soundManager;
+	
 	private GameContainer game;
 	
 	public GameEngine(ScreenManager screenManager, GameContainer game) {
@@ -116,6 +123,8 @@ public final class GameEngine {
 	private void initialize() {
 		instance = this;
 		this.engineState = EnumEngineState.INITIALIZING;
+		
+		this.soundManager = new SoundManager(PLAYBACK_FORMAT);
 		
 		// INPUT
 		this.keyHandler = new KeyInputHandler();
