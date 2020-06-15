@@ -37,7 +37,9 @@ public class ThreadPool extends ThreadGroup {
 		
 		if (task != null) {
 			tasks.add(task);
-			this.notify();
+			synchronized (this) {
+				this.notify();
+			}
 		}
 	}
 	
@@ -52,7 +54,9 @@ public class ThreadPool extends ThreadGroup {
 			if (!alive) {
 				return null;
 			}
-			this.wait();
+			synchronized (this) {
+				this.wait();
+			}
 		}
 		
 		return tasks.remove();
