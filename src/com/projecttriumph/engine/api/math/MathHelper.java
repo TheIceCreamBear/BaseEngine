@@ -16,8 +16,8 @@ public class MathHelper {
 	}
 	
 	/**
-	 * Finds the angle in radians above the horizontal that the line these two points form from the starting object
-	 * to the target.
+	 * Finds the angle in radians above the horizontal that the line these two points form from 
+	 * the starting object to the target.
 	 * @param object - the calling object
 	 * @param target - the target object to find the able to
 	 * @return the angle in radians from the starting object to the target
@@ -27,13 +27,42 @@ public class MathHelper {
 	}
 	
 	/**
-	 * Finds the angle in degrees above the horizontal that the line these two points form from the starting object
-	 * to the target.
+	 * Finds the angle in degrees above the horizontal that the line these two points form from 
+	 * the starting object to the target.
 	 * @param object - the calling object
 	 * @param target - the target object to find the able to
 	 * @return the angle in degrees from the starting object to the target
 	 */
 	public static double getAngle(Point2D object, Point2D target) {
 		return Math.toDegrees(getAngleRad(object, target));
+	}
+	
+	/**
+	 * Squares a number
+	 * @param a - the number to square
+	 * @return a * a
+	 */
+	public static double square(double a) {
+		return a * a;
+	}
+	
+	/**
+	 * Calculates the distance squared between the two points.
+	 * @param p1 - the first point
+	 * @param p2 - the second point
+	 * @return the square of the distance between the two points
+	 */
+	public static double getDistanceSqrd(Point2D p1, Point2D p2) {
+		return square(p2.getX() - p1.getX()) + square(p2.getY() + p1.getY());
+	}
+	
+	/**
+	 * Calculates the distance between the two points.
+	 * @param p1 - the first point
+	 * @param p2 - the second point
+	 * @return the distance between the two points
+	 */
+	public static double getDistance(Point2D p1, Point2D p2) {
+		return Math.sqrt(getDistanceSqrd(p1, p2));
 	}
 }
