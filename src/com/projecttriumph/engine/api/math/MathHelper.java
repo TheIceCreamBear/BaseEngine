@@ -53,7 +53,7 @@ public class MathHelper {
 	 * @return the square of the distance between the two points
 	 */
 	public static double getDistanceSqrd(Point2D p1, Point2D p2) {
-		return square(p2.getX() - p1.getX()) + square(p2.getY() + p1.getY());
+		return square(p2.getX() - p1.getX()) + square(p2.getY() - p1.getY());
 	}
 	
 	/**
