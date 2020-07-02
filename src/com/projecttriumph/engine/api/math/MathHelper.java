@@ -11,7 +11,7 @@ public class MathHelper {
 	 * @return true if |a - b| <= error
 	 */
 	public static boolean equal(double a, double b, double error) {
-		double ab = Math.abs(a - b);
+		double ab = StrictMath.abs(a - b);
 		return ab <= error;
 	}
 	
@@ -23,7 +23,7 @@ public class MathHelper {
 	 * @return the angle in radians from the starting object to the target
 	 */
 	public static double getAngleRad(Point2D object, Point2D target) {
-		return Math.atan2(target.getY() - object.getY(), target.getX() - object.getX());
+		return StrictMath.atan2(target.getY() - object.getY(), target.getX() - object.getX());
 	}
 	
 	/**
@@ -34,7 +34,7 @@ public class MathHelper {
 	 * @return the angle in degrees from the starting object to the target
 	 */
 	public static double getAngle(Point2D object, Point2D target) {
-		return Math.toDegrees(getAngleRad(object, target));
+		return StrictMath.toDegrees(getAngleRad(object, target));
 	}
 	
 	/**
@@ -63,6 +63,6 @@ public class MathHelper {
 	 * @return the distance between the two points
 	 */
 	public static double getDistance(Point2D p1, Point2D p2) {
-		return Math.sqrt(getDistanceSqrd(p1, p2));
+		return StrictMath.sqrt(getDistanceSqrd(p1, p2));
 	}
 }
