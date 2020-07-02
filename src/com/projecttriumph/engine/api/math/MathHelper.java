@@ -65,4 +65,18 @@ public class MathHelper {
 	public static double getDistance(Point2D p1, Point2D p2) {
 		return StrictMath.sqrt(getDistanceSqrd(p1, p2));
 	}
+	
+	/**
+	 * Returns the new point that is distance away from point and at the angle
+	 * direction (in radians) from point.
+	 * @param point - the point
+	 * @param direction - the direction in radians
+	 * @param distance - the distance
+	 * @return
+	 */
+	public static Point2D.Double offsetPoint(Point2D.Double point, double direction, double distance) {
+		double newX = distance * StrictMath.cos(direction) + point.getX();
+		double newY = distance * StrictMath.sin(direction) + point.getY();
+		return new Point2D.Double(newX, newY);
+	}
 }
