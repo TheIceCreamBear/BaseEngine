@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.font.FontRenderContext;
@@ -59,6 +60,8 @@ public class ScreenManager {
 		if (window != null) {
 			BufferStrategy strategy = window.getBufferStrategy();
 			Graphics2D g = (Graphics2D) strategy.getDrawGraphics();
+			g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			return g;
 		}
 		return null;
