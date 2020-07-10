@@ -29,9 +29,8 @@ public class GameLoader {
 			Class<?> gameClass = Class.forName(candidate.getGameClassName(), false, cl);
 			Game game = gameClass.getAnnotation(Game.class);
 			Class<? extends IGameController> controllerClass = gameClass.asSubclass(IGameController.class);
-			IGameController controller = controllerClass.newInstance();
-			return new GameContainer(candidate.getLocation(), game, controller);
-		} catch (ClassNotFoundException | ClassCastException | InstantiationException | IllegalAccessException | IOException e) {
+			return new GameContainer(candidate.getLocation(), game, controllerClass);
+		} catch (ClassNotFoundException | ClassCastException | IOException e) {
 			e.printStackTrace();
 		}
 		
