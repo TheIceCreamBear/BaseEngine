@@ -1,6 +1,7 @@
 package com.projecttriumph.engine.gamediscover;
 
 import java.io.File;
+import java.net.URLClassLoader;
 
 import com.projecttriumph.engine.api.game.Game;
 import com.projecttriumph.engine.api.game.IGameController;
@@ -11,11 +12,13 @@ public class GameContainer {
 	private Class<? extends IGameController> controllerClass;
 	private boolean controllerCreated = false;
 	private IGameController controller;
+	private URLClassLoader gameClassLoader;
 	
-	public GameContainer(File location, Game game, Class<? extends IGameController> controllerClass) {
+	public GameContainer(File location, Game game, Class<? extends IGameController> controllerClass, URLClassLoader gameClassLoader) {
 		this.location = location;
 		this.game = game;
 		this.controllerClass = controllerClass;
+		this.gameClassLoader = gameClassLoader;
 	}
 	
 	public Class<? extends IGameController> getControllerClass() {
@@ -30,6 +33,10 @@ public class GameContainer {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public URLClassLoader getGameClassLoader() {
+		return this.gameClassLoader;
 	}
 	
 	public IGameController getController() {
