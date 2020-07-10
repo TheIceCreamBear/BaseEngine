@@ -17,6 +17,7 @@ import com.projecttriumph.engine.api.io.user.IGameKeyInputHandler;
 import com.projecttriumph.engine.api.io.user.IGameMouseInputHandler;
 import com.projecttriumph.engine.api.math.shape.Rectangle;
 import com.projecttriumph.engine.gamediscover.GameContainer;
+import com.projecttriumph.engine.io.file.ImageHelper;
 import com.projecttriumph.engine.io.user.EngineMouseInputHandler;
 import com.projecttriumph.engine.io.user.KeyInputHandler;
 
@@ -32,6 +33,8 @@ public class ScreenManager {
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		this.device = env.getDefaultScreenDevice();
 		
+		System.setProperty("sun.java2d.opengl", "true");
+				
 		this.frame = new JFrame(game.getGame().gameName());
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.frame.setUndecorated(true);
@@ -51,6 +54,8 @@ public class ScreenManager {
 		}
 		
 		this.frame.createBufferStrategy(2);
+		
+		ImageHelper.init(this.device.getDefaultConfiguration());
 		
 		instance = this;
 	}
