@@ -25,6 +25,7 @@ public class GameContainer {
 	public void instantiateControllerClass() {
 		try {
 			this.controller = controllerClass.newInstance();
+			this.controllerCreated = true;
 		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
