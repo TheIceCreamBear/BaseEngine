@@ -55,7 +55,7 @@ public class ScreenManager {
 		
 		this.frame.createBufferStrategy(2);
 		
-		ImageHelper.init(this.device.getDefaultConfiguration());
+		ImageHelper.init(this.device.getDefaultConfiguration(), game.getGameClassLoader());
 		
 		instance = this;
 	}
