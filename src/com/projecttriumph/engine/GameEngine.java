@@ -110,10 +110,10 @@ public final class GameEngine {
 	public GameEngine(ScreenManager screenManager, GameContainer game) {
 		this.screenManager = screenManager;
 		this.game = game;
-		
 	}
 	
 	public void startEngine() {
+		this.game.instantiateControllerClass();
 		this.initialize();
 		this.run();
 		// system exit here calls shutdown threads and closes the awt threads
