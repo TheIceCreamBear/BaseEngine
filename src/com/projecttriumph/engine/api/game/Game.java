@@ -40,13 +40,17 @@ public @interface Game {
 	/**
 	 * An implementation of the {@link IGameMouseInputHandler} interface, defining the how the 
 	 * game will handle mouse input.
+	 * @deprecated will be replaced by new input feature interface
 	 */
+	@Deprecated
 	Class<? extends IGameMouseInputHandler> mouseInput();
 	
 	/**
 	 * An implementation of the {@link IGameKeyInputHandler} interface, defining the how the 
 	 * game will handle key input.
+	 * @deprecated will be replaced by new input feature interface
 	 */
+	@Deprecated
 	Class<? extends IGameKeyInputHandler> keyInput();
 	
 	/**
