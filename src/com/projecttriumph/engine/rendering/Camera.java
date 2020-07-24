@@ -26,7 +26,7 @@ public class Camera {
 		this.screenCenterY = this.screenHeight / 2;
 	}
 	
-	public void onMouseWheelEvent(MouseWheelEvent event) {
+	public synchronized void onMouseWheelEvent(MouseWheelEvent event) {
 		// zoom
 		int rotation = event.getWheelRotation();
 		if (zoomScale == 1) {
@@ -54,7 +54,7 @@ public class Camera {
 		}
 	}
 	
-	public void frameMoveCamera() {
+	public synchronized void frameMoveCamera() {
 		if (KeyInputHandler.isKeyDown(KeyEvent.VK_LEFT)) {
 			this.offsetX += SCEEN_OFF_SET_PER_KEY;
 		}
@@ -72,7 +72,7 @@ public class Camera {
 		}
 	}
 	
-	public void onArrowKeyEvent(KeyEvent e) {
+	public synchronized void onArrowKeyEvent(KeyEvent e) {
 		// TODO allow for dynamic key binding
 //		switch(e.getKeyCode()) {
 //			case KeyEvent.VK_LEFT:
@@ -90,7 +90,7 @@ public class Camera {
 //		}
 	}
 	
-	public AffineTransform getCurrentTransform() {
+	public synchronized AffineTransform getCurrentTransform() {
 		AffineTransform at = new AffineTransform();
 		// shifts the center of the scaled screen to the center of the screen to create zooming from center
 		at.translate(-screenCenterX * (scale - 1), -screenCenterY * (scale - 1));
