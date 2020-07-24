@@ -19,14 +19,9 @@ public class Camera {
 	protected int offsetX = 0;
 	protected int offsetY = 0;
 	
-	// test constructor, remove
 	public Camera() {
-		this(0,0);
-	}
-	
-	public Camera(int screenWidth, int screenHeight) {
-		this.screenWidth = screenWidth;
-		this.screenHeight = screenHeight;
+		this.screenWidth = ScreenManager.getScreenWidth();
+		this.screenHeight = ScreenManager.getScreenHeight();
 		this.screenCenterX = this.screenWidth / 2;
 		this.screenCenterY = this.screenHeight / 2;
 	}

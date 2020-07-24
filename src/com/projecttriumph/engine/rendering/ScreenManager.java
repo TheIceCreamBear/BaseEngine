@@ -30,6 +30,8 @@ public class ScreenManager {
 	private static ScreenManager instance;
 	
 	public ScreenManager(GameContainer game) throws InstantiationException, IllegalAccessException {
+		instance = this;
+		
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		this.device = env.getDefaultScreenDevice();
 		
@@ -46,18 +48,12 @@ public class ScreenManager {
 		
 		this.frc = ((Graphics2D) this.frame.getGraphics()).getFontRenderContext();
 		
-		if (game.getGame().camera() == Camera.class) {
-			this.camera = new Camera(device.getDisplayMode().getWidth(), device.getDisplayMode().getHeight());
-		} else {
-			Class<? extends Camera> cameraClass = game.getGame().camera();
-			this.camera = cameraClass.newInstance();
-		}
+		Class<? extends Camera> cameraClass = game.getGame().camera();
+		this.camera = cameraClass.newInstance();
 		
 		this.frame.createBufferStrategy(2);
 		
 		ImageHelper.init(this.device.getDefaultConfiguration(), game.getGameClassLoader());
-		
-		instance = this;
 	}
 	
 	public Graphics2D getRenderGraphics() {
