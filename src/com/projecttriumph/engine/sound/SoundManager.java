@@ -85,7 +85,7 @@ public class SoundManager extends ThreadPool {
 		DataLine.Info lineInfo = new DataLine.Info(SourceDataLine.class, playbackFormat);
 		int retval = AudioSystem.getMixer(null).getMaxLines(lineInfo);
 		if (retval == AudioSystem.NOT_SPECIFIED) {
-			retval = 100;
+			retval = 32;
 		}
 		return retval;
 	}
