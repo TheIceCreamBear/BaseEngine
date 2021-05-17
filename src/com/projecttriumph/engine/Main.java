@@ -55,6 +55,10 @@ public class Main {
 				disc.findJarGamesInDir(new File("F:\\__TestGameDir")); // TODO make a default location
 				List<GameCandidate> candidates = disc.identifyValid();
 				GameCandidate selection = GameLoaderDialog.show(candidates);
+				// error or they hit cancel, dont keep loading
+				if (selection == null) {
+					return;
+				}
 				game = GameLoader.loadGame(selection);
 			}
 			
